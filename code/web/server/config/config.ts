@@ -11,7 +11,6 @@ const MONGO_OPTIONS = {
   useNewUrlParser: true,
   socketTimeoutMS: 30000,
   keepAlive : true,
-  poolSize: 50,
   autoIndex: false,
   retryWrites : false  
 };

@@ -1,26 +1,17 @@
-import { UUID } from 'bson';
 import mongoose,{ Schema } from 'mongoose';
 import User from '../interfaces/users';
 
+const requiredString = {
+    type : String,
+    required : true 
+} 
+
 const UserSchema : Schema = new Schema (
     {
-        id : {
-            type : UUID,
-            required : true,
-            unique : true
-        },
-        username : {
-            type : String,
-            required : true
-        },
-        email : {
-            type : String,
-            required : true
-        },
-        password : {
-            type : String,
-            required : true
-        },
+        username : requiredString,
+        email : requiredString,
+        password : requiredString,
+
         //date sous format 'timestamp' (nbres de secondes écoulées depuis le)
         registrationDate : {
             type : Date,
