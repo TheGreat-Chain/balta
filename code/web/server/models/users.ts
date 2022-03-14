@@ -1,5 +1,5 @@
 import mongoose,{ Schema } from 'mongoose';
-import User from '../interfaces/users';
+import IUser from '../interfaces/users';
 
 const requiredString = {
     type : String,
@@ -11,7 +11,7 @@ const UserSchema : Schema = new Schema (
         username : requiredString,
         email : requiredString,
         password : requiredString,
-
+        projectPath: requiredString,
         //date sous format 'timestamp' (nbres de secondes écoulées depuis le)
         registrationDate : {
             type : Date,
@@ -24,4 +24,5 @@ const UserSchema : Schema = new Schema (
     }
 );
 
-export default mongoose.model<User>('User',UserSchema);
+
+export default mongoose.model<IUser>('User',UserSchema);
