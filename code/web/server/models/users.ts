@@ -20,7 +20,8 @@ const UserSchema : Schema = new Schema (
         }
     },
     {
-        timestamps : true
+        timestamps : true,
+        collection : 'Utilisateurs'
     }
 );
 
