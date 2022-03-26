@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import {GetPublicKeyOrSecret, Secret} from "jsonwebtoken";
 
 dotenv.config();
 
@@ -25,10 +26,19 @@ const MONGO = {
 
 const SERVER_HOST =  process.env.SERVER_HOST;
 const SERVER_PORT = process.env.PORT;
+const SERVER_TOKEN_EXPIRATION_TIME = process.env.TOKEN_EXPIRATION_TIME;
+const SERVER_TOKEN_ISSUER = process.env.TOKEN_ISSUER
+const SERVER_TOKEN_SECRET  = process.env.SECRET
 
+const TOKEN = {
+    expirationTime : SERVER_TOKEN_EXPIRATION_TIME || null,
+    issuer : SERVER_TOKEN_ISSUER || null,
+    secret : SERVER_TOKEN_SECRET || null
+};
 const SERVER = {
     host : SERVER_HOST,
-    port : SERVER_PORT
+    port : SERVER_PORT,
+    token : TOKEN
 }
 
 const config = {
