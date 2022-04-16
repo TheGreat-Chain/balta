@@ -26,14 +26,15 @@ const MONGO = {
 
 const SERVER_HOST =  process.env.SERVER_HOST;
 const SERVER_PORT = process.env.PORT;
-const SERVER_TOKEN_EXPIRATION_TIME = process.env.TOKEN_EXPIRATION_TIME;
-const SERVER_TOKEN_ISSUER = process.env.TOKEN_ISSUER
-const SERVER_TOKEN_SECRET  = process.env.SECRET
+const SERVER_TOKEN_EXPIRATION_TIME = process.env.TOKEN_EXPIRATION_TIME ;
+const SERVER_TOKEN_ISSUER = process.env.TOKEN_ISSUER;
+const SERVER_TOKEN_SECRET  = process.env.SECRET;
 
 const TOKEN = {
-    expirationTime : SERVER_TOKEN_EXPIRATION_TIME || null,
-    issuer : SERVER_TOKEN_ISSUER || null,
-    secret : SERVER_TOKEN_SECRET || null
+    // NE PAS OUBLIER DE METTRE UNE VALEUR SUPLEMENTAIRE SINON BUG
+    expirationTime : SERVER_TOKEN_EXPIRATION_TIME || 3600,
+    issuer : SERVER_TOKEN_ISSUER || "coolissuer",
+    secret : SERVER_TOKEN_SECRET || "supersecret"
 };
 const SERVER = {
     host : SERVER_HOST,

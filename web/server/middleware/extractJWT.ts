@@ -1,7 +1,7 @@
 import {Request,Response,NextFunction} from "express";
 import jwt from 'jsonwebtoken';
 import config from "../config/config";
-/*
+
 const extractJWT =  (req : Request, res : Response, next : NextFunction) => {
     let token =  req.headers.authorization?.split(' ')[1];
 
@@ -24,5 +24,5 @@ const extractJWT =  (req : Request, res : Response, next : NextFunction) => {
         })
     }
 };
-*/
+
 /*export default extractJWT;*/

@@ -3,7 +3,6 @@ import config from "../config/config";
 
 import IUser from "../interfaces/users";
 
-/**
 const signJWT = (user: IUser, callback : (error : Error | null, token : string | null) => void): void => {
     let time : number = new Date().getTime();
     let expirationTime : number = time + Number(config.server.token.expirationTime) * 100000;
@@ -28,4 +27,4 @@ const signJWT = (user: IUser, callback : (error : Error | null, token : string |
     }
 };
 
-export default signJWT;*/
+export default signJWT;
