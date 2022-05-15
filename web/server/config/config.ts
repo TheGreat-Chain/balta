@@ -1,21 +1,38 @@
+/**
+ * File : config.ts
+ * 
+ * Definition of constants using environment variables thanks to the dotenv library.
+ * More here : https://www.npmjs.com/package/dotenv
+ * 
+ * @Author : Balta Team
+ */
+
 import dotenv from 'dotenv';
-import {GetPublicKeyOrSecret, Secret} from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
-const MONGO_USERNAME = process.env.MONGO_USERNAME;
-const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
-const MONGO_HOST = process.env.MONGO_URL;
-
+/** Some options related to the database */
 const MONGO_OPTIONS = {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-  socketTimeoutMS: 30000,
-  keepAlive : true,
-  autoIndex: false,
-  retryWrites : false  
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    socketTimeoutMS: 30000,
+    keepAlive: true,
+    poolSize: 50,
+    autoIndex: false,
+    retryWrites: true
 };
 
+/**  Username to log in the mongo database */
+const MONGO_USERNAME = process.env.MONGO_USERNAME;
+
+/**  Password to log in the mongo database */
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
+
+/**  Link to the machine hosting our database */
+const MONGO_HOST = process.env.MONGO_URL;
+
+/** The Mongo database object */
 const MONGO = {
     host : MONGO_HOST,
     username : MONGO_USERNAME,
@@ -24,24 +41,37 @@ const MONGO = {
     url : `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}${MONGO_HOST}`
 }
 
-const SERVER_HOST =  process.env.SERVER_HOST;
-const SERVER_PORT = process.env.PORT;
-const SERVER_TOKEN_EXPIRATION_TIME = process.env.TOKEN_EXPIRATION_TIME ;
-const SERVER_TOKEN_ISSUER = process.env.TOKEN_ISSUER;
-const SERVER_TOKEN_SECRET  = process.env.SECRET;
+/** Where the code is running */
+const SERVER_HOSTNAME =  process.env.SERVER_HOSTNAME || 'localhost';
 
+/** On which port the server communicates */
+const SERVER_PORT = process.env.PORT || '3001';
+
+/** Expiration time of a JWT, after what the token becomes invalid */
+const SERVER_TOKEN_EXPIRATION_TIME = process.env.TOKEN_EXPIRATION_TIME || 3600;
+
+/** JWT transmiter */
+const SERVER_TOKEN_ISSUER = process.env.TOKEN_ISSUER || 'Balta';
+
+/** Secret used in the JWT signature */
+const SERVER_TOKEN_SECRET  = process.env.TOKEN_SECRET || '164653832019882386597233176106' ; 
+
+/** An object representing a JWT given to a user - ? useful ? */
 const TOKEN = {
     // NE PAS OUBLIER DE METTRE UNE VALEUR SUPLEMENTAIRE SINON BUG
     expirationTime : SERVER_TOKEN_EXPIRATION_TIME || 3600,
-    issuer : SERVER_TOKEN_ISSUER || "coolissuer",
-    secret : SERVER_TOKEN_SECRET || "supersecret"
+    issuer : SERVER_TOKEN_ISSUER,
+    secret : SERVER_TOKEN_SECRET
 };
+
+/** Object representing our server */
 const SERVER = {
-    host : SERVER_HOST,
+    hostname : SERVER_HOSTNAME,
     port : SERVER_PORT,
     token : TOKEN
 }
 
+/** Object containing the application server and database configurations */
 const config = {
     server : SERVER,
     mongo : MONGO

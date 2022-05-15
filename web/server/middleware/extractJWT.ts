@@ -1,8 +1,20 @@
 import {Request,Response,NextFunction} from "express";
 import jwt from 'jsonwebtoken';
 import config from "../config/config";
+import logging from '../config/logging';
 
+
+/**
+ * Extracts and verifies the token on every client / other party request.
+ * 
+ * @param req 
+ * @param res 
+ * @param next 
+ * @returns 
+ */
 const extractJWT =  (req : Request, res : Response, next : NextFunction) => {
+    logging.log('Auth', 'Validating token');
+
     let token =  req.headers.authorization?.split(' ')[1];
 
     if (token){
@@ -25,4 +37,4 @@ const extractJWT =  (req : Request, res : Response, next : NextFunction) => {
     }
 };
 
-/*export default extractJWT;*/
+export default extractJWT;
