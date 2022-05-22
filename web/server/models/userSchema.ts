@@ -17,49 +17,47 @@
  * @author Balta Team
  */
 
-import mongoose, { Schema } from 'mongoose';
-import IUser from '../interfaces/userInterface';
-
-/** 
- * A required String.
- * Usage : force users to complete forms. */
-const requiredString = {
-    type : String,
-    required : true 
-} 
-
-/**
- * A type representing any email address.
- */
-const emailType =  {
-    type: String,
-    required: true,
-    match: /.+\@.+\..+/,
-    unique: true
-}
-
-/**
- * The schema reprensenting the User interface (Iuser)
- */
-const UserSchema : Schema = new Schema (
-    {
-        username : requiredString,
-        email : emailType,
-        password : requiredString,
-        projectPath: requiredString,
-        registrationDate : {
-            //date sous format 'timestamp' (nbres de secondes écoulées depuis le)
-            type : Date,
-            required : true,
-            default : Date.now()
-        }
-    },
-    
-    {
-        timestamps : true,
-        collection : 'Users'
-    }
-);
-
-
-export default mongoose.model<IUser>('User', UserSchema);
+ import mongoose, { Schema } from 'mongoose';
+ import IUser from '../interfaces/userInterface';
+ 
+ /**
+  * The schema reprensenting the User interface (Iuser)
+  */
+ const UserSchema : Schema = new mongoose.Schema({
+         username : {
+             type: String,
+             required: true,
+             min: 4,
+             max: 20,
+         },
+ 
+         email : {
+             type: String,
+             required: true,
+             match: /.+\@.+\..+/,
+             unique: true
+         },
+ 
+         password : {
+             type: String,
+             required: true,
+             min: 6,
+             max: 32
+         },
+ 
+         registrationDate : {
+             //date sous format 'timestamp' (nbres de secondes écoulées depuis le 1e janvier 1970)
+             type : Date,
+             required : true,
+             default : Date.now()
+         }
+     },
+     
+     {
+         timestamps : true,
+         collection : 'Users'
+     }
+ );
+ 
+ 
+ export default mongoose.model<IUser>('User', UserSchema);

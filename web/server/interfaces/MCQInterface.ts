@@ -22,45 +22,39 @@
  /**
   * Interface representing the MCQ document in mongodb.
   * 
-  * @id MCQ test unique identifiant
-  * @creator User that created this MCQ test. Him only can see, edit or delete the MCQ.
-  * @markingScheme Sum of the marking of every question of the MCQ Test
-  * @questions Questions of the MCQ Test that has to be answered
+  * @user_email email of the user
+  * @title titre du QCM
+  * @date date de création du QCM
+  * @exemplaire nombre de copies 
+  * @totalPoints QCM noté sur ce nombre de points
+  * @questions tableau de questions, chaque question étant composée de :
+  *     @intitule de la question
+  *     @points qu'apporte cette question
+  *     @hasMultChoice plusieurs réponses correctes 
+  *     @reponses tableau de réponses, chaque réponse étant composée de :
+  *         @content contenu de la réponse
+  *         @isGoodAnswer booléen, true si bonne réponse false sinon
   */
  interface MCQTest extends Document {
-     _id : Types.ObjectId,
-     creator : Schema,
-     markingScheme : number, // = barème
-     questions : Question[]
- }
+    "user_email" : String,
+    "titre" : String,
+    "date" : String,
+    "duree" : number,
+    "exemplaire" : number,
+    "totalPoints" : number,
+    "questions" : [
+        {
+            "intitule" : string,
+            "points" : number,
+            "hasMultChoices" : boolean,
+            "reponses" : [
+                {
+                    "content" : string,
+                    "isGoodAnswer" : boolean
+                }
+            ]
+        }
+    ]
+}
 
-/**
- * Customized type representing a question in a MCQ test.
- * 
- * @id question id
- * @title question title. e.g : "When was Napoleon born ?"
- * @possibleAnswers : Answer type -> all the possible answers for a question
- * @markingScheme number points can you obtain by completing this question correctly
- */
-type Question = {
-    _id : mongoose.Types.ObjectId,
-    title : String, 
-    possibleAnswers : Answer[],
-    markingScheme : number
- }
-
-/**
- * Customized type representing a possible answer for a question in a MCQ test.
- * 
- * @id answer id
- * @title Answer title. eg : 15 August of 1769
- * @isCorrectAnswer Wether the answer is correct or not. IDEA : make a scale to permit the user to weight every answer. (answerWeight property)
- */
-type Answer = {
-    _id : mongoose.Types.ObjectId,
-    title : String,
-    isCorrectAnswer : boolean
- }
-
- export { Question, Answer };
- export default MCQTest; 
+export default MCQTest; 

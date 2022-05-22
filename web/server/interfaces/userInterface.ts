@@ -20,7 +20,7 @@
 import { Document } from "mongoose";
 
 export default interface IUser extends Document {
-    userName: string, 
+    username: string, 
     email : string,
     password : string,
     projectPath : string,

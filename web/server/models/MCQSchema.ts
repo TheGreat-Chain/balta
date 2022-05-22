@@ -18,16 +18,79 @@
  */
 
 import mongoose, { Schema } from 'mongoose';
-import MCQTest, { Answer, Question } from '../interfaces/MCQInterface';
+import MCQTest from '../interfaces/MCQInterface';
+
+/**
+ * A type representing any email address.
+ */
+ const emailType =  {
+    type: String,
+    required: true,
+    match: /.+\@.+\..+/,
+    unique: true
+}
 
 const MCQSchema : Schema = new Schema (
     {
-        creator : { type : Schema, required : true },
-        markingScheme : { type : Number, required : false },
-        questions : { type : {} , required : false }, // type : Question => why the fuck ?? voir avec lucas / philippe
+        "user_email" : emailType,
+
+        "titre" : {
+            type: String,
+            required: true
+        },
+
+        "date" : {
+            type:String,
+            required: true,
+        },
+
+        "duree" : {
+            type: Number, //a voir si on garde
+            required : true
+        },
+
+        "nombre_copies" : {
+            type : Number,
+            required : true
+        },
+
+        "totalPoints" : {
+            type : Number,
+            required: true
+        },
+
+        "questions" : [
+            {
+                "intitule" : {
+                    type : String,
+                    required : true
+                },
+                
+                "points" : {
+                    type : Number,
+                    required: true
+                },
+
+                "hasMultChoices" : {
+                    type : Boolean,
+                    required: true
+                },
+
+                "reponses" : [
+                    {
+                        "content" : String,
+                        "isGoodAnswer" : Boolean
+                    }
+                ]
+            }
+        ]
+    },
+
+    {
+        timestamps : true,
+        collection : 'MCQTests'
     }
 );
 
-
-export default mongoose.model<MCQTest>('MCQTest', MCQSchema);
+export default mongoose.model<MCQTest>('MCQModel', MCQSchema);
  

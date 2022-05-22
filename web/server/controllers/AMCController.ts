@@ -4,7 +4,7 @@
  * All the callback functions corresponding to some routes.
  * 
  * Functions related to AMC Latex :
- * - createNewProject
+ * - createNewMCQ
  * - getMCQ
  * - getMCQCorrections
  * - editMCQ
@@ -18,23 +18,72 @@
  */
  import { NextFunction, Request, Response } from 'express';
  import { exec } from 'child_process';
- import mongoose from 'mongoose';
+ import MCQ from "../models/MCQSchema"
 
  import logging from '../config/logging';
+import MCQTest from '../interfaces/MCQInterface';
 
- /** Creates a new AMC-Latex project. 
-  *  It is a unique folder that has the userID as a name.
-  *  Not a callback function.
+
+/**
+ * Permits to create a string from of an MCQ from a specific JSON object.
+ * This string is then used to create a text file for AMC Latex.
+ * 
+ * Useful because we receive JSON data from the frontend.
+ * 
+ * @param qcmJson JSON object representing an MCQ
+ * @returns String.
+ */
+ function jsonToString (qcmJson: MCQTest) {
+    let qcmTxt = "# AMC-TXT source \n";
+    qcmTxt += "#** -> question à choix multiple \n\n"
+    qcmTxt += "PaperSize : A4\nLang : FR\nTitle: "+ qcmJson.titre+"\n\n";
+    qcmTxt += "Presentation : Veuillez répondre aux questions ci-dessous du mieux que vous pouvez. Durée : "+qcmJson.duree+" minutes. Noté sur : "+qcmJson.totalPoints+" points\n"; 
+
+
+    for(let question = 0 ; question < qcmJson.questions.length ; question++){
+        if(qcmJson.questions[question].hasMultChoices == true){
+            qcmTxt += "** "+qcmJson.questions[question].intitule+"\n";
+        }else{
+            qcmTxt += "* "+qcmJson.questions[question].intitule+"\n";
+        }
+        
+        qcmTxt += "# POINTS : "+qcmJson.questions[question].points + "\n";
+
+        for(let reponse = 0; reponse < qcmJson.questions[question].reponses.length; reponse ++){
+            if(qcmJson.questions[question].reponses[reponse].isGoodAnswer){
+                qcmTxt += "+ "+qcmJson.questions[question].reponses[reponse].content+"\n";
+            }else{
+                qcmTxt += "- "+qcmJson.questions[question].reponses[reponse].content+"\n";
+            }
+        }
+        qcmTxt += "\n";
+    } 
+    return qcmTxt;
+}
+
+ /** Creates a new AMC-Latex MCQ. 
+  * 
+  *  1. Transforms JSON object in string with jsonToString
+  *  2. Creates a text file from this string in the user's project folder
+  *  3. Creates a PDF file, giveable to students for test.
+  *  4. Stores the JSON object in the MongoDB.
   * 
   * @userID : 1 user <=> 1 folder. To keep every folder unique, they are named as the user's id in mongoDB
   * @return : the error message if there is one
   */
-  export function createNewProject (userID : String) {
+export function createNewMCQ (req : Request, res : Response, next : NextFunction) {
 
-    let projectPath = `$HOME/Projets-QCM/${userID}`
 
-    exec(`mkdir ${projectPath}/$1 && mkdir ${projectPath}/$1/cr && mkdir ${projectPath}/$1/cr/corrections && mkdir ${projectPath}/$1/cr/corrections/jpg && mkdir ${projectPath}/$1/cr/corrections/pdf && mkdir ${projectPath}/$1/cr/diagnostic && mkdir ${projectPath}/$1/cr/zooms && mkdir ${projectPath}/$1/data && mkdir ${projectPath}/$1/exports && mkdir ${projectPath}/$1/scans && mkdir ${projectPath}/$1/copies`
-        , (error, stdout, stderr) => {
+    const userEmail = req.body.user_email
+    let projectPath = `$HOME/Projets-QCM/${userEmail}`
+    let nbCopie = req.body.nbCopie
+    let qcmTxt = jsonToString(req.body.qcm)
+
+    // placer le txt dans projectPath
+
+    // generer le pdf
+    exec('auto-multiple-choice prepare --mode s --data data --filter plain --n-copies ${nbCopie} ${qcmTxt} > /dev/null 2> /dev/null',
+        (error, stdout, stderr) =>{
             if(error) {
                 console.log(error.message);
                 return error.message;
@@ -44,9 +93,8 @@
                 return stderr
             }
             console.log(stdout);
-     });
+        })
 }
-
 
 
 
