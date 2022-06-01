@@ -82,7 +82,7 @@ export function createNewMCQ (req : Request, res : Response, next : NextFunction
     // placer le txt dans projectPath
 
     // generer le pdf
-    exec('auto-multiple-choice prepare --mode s --data data --filter plain --n-copies ${nbCopie} ${qcmTxt} > /dev/null 2> /dev/null',
+    exec(`auto-multiple-choice prepare --mode s --data data --filter plain --n-copies ${nbCopie} ${qcmTxt} > /dev/null 2> /dev/null`,
         (error, stdout, stderr) =>{
             if(error) {
                 console.log(error.message);

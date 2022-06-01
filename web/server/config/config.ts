@@ -12,32 +12,15 @@ import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
-/** Some options related to the database */
-const MONGO_OPTIONS = {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-    socketTimeoutMS: 30000,
-    keepAlive: true,
-    poolSize: 50,
-    autoIndex: false,
-    retryWrites: true
-};
-
 /**  Username to log in the mongo database */
-const MONGO_USERNAME = process.env.MONGO_USERNAME;
+const {MONGO_USERNAME, MONGO_PASSWORD, MONGO_URL: MONGO_HOST} = process.env;
 
-/**  Password to log in the mongo database */
-const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
-
-/**  Link to the machine hosting our database */
-const MONGO_HOST = process.env.MONGO_URL;
 
 /** The Mongo database object */
 const MONGO = {
     host : MONGO_HOST,
     username : MONGO_USERNAME,
     password : MONGO_PASSWORD,
-    options : MONGO_OPTIONS,
     url : `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}${MONGO_HOST}`
 }
 

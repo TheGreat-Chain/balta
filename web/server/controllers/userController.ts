@@ -50,17 +50,54 @@
  const register = async (req: Request, res: Response, next: NextFunction) => {
     let {username, email, password} = req.body;
 
+    if(username === ""){
+        res.status(400).json({
+            messsage :"Aucun username renseigné",
+            success : false});
+        return
+    }else if(email === "") {
+        res.status(400).json({
+            messsage: "Aucun email renseigné",
+            success: false
+        });
+        return
+    }else if(password === "") {
+        res.status(400).json({
+            messsage: "Aucun password renseigné",
+            success: false
+        });
+        return
+    }
+
+    //Verify if an email is correct
+
+     // Regular expression to check if string is email
+     const regexExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
+
+     if(!regexExp.test(email)){
+         res.status(400).json({
+             messsage: "L'email n'est pas valide.",
+             success: false
+         });
+     }
+
     // Verify password length
     if(password.length <= 6) {
-        res.status(400).send("Le mot de passe entré est trop court.");
+        res.status(400).json({
+            messsage: "Le mot de passe est trop court",
+            success: false
+        });
         return
     }
 
     // Existing email ? :
     const loginExist = await User.findOne({ email: email});
     if(loginExist) {
-        res.status(400).send("Un utilisateur avec la même adresse mail existe déjà.\n"); 
-        return;
+        res.status(400).json({
+            messsage: "L'adresse email est déjà utilisée.",
+            success: false
+        });
+        return
     }
     
     // Hash the password before storing the user
@@ -86,7 +123,8 @@
          return user.save()
              .then((user: any) => {
                  return res.status(201).json({
-                     user
+                     user,
+                     success : true
                  });
              })
              .catch((error: { message: any; }) => {
