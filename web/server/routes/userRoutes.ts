@@ -24,6 +24,6 @@
  router.get('/validateToken', extractJWT, userController.validateToken);
  router.post('/register', userController.register);
  router.get('/login', userController.login);
- router.get('/getAllUsers', userController.getAllUsers);
+ router.get('/getAllUsers', extractJWT,userController.getAllUsers);
  
  export = router;

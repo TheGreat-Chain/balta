@@ -19,10 +19,32 @@
 
  import mongoose, { Schema } from 'mongoose';
  import IUser from '../interfaces/userInterface';
- 
+
  /**
   * The schema reprensenting the User interface (Iuser)
   */
+ const emailType =  {
+     type: String,
+     required: true,
+     match: /.+\@.+\..+/,
+     unique: true
+ }
+
+ const requiredNumber =  {
+     type : Number,
+     required : true
+}
+
+const requiredString =  {
+    type : String,
+    required : true
+}
+
+const requiredBoolean = {
+     type : Boolean,
+    required : true
+}
+
  const UserSchema : Schema = new mongoose.Schema({
          username : {
              type: String,
@@ -32,10 +54,7 @@
          },
  
          email : {
-             type: String,
-             required: true,
-             match: /.+\@.+\..+/,
-             unique: true
+             type : emailType
          },
  
          password : {
@@ -50,9 +69,36 @@
              type : Date,
              required : true,
              default : Date.now()
-         }
-     },
-     
+         },
+        UserMCQs : [ {
+            user_email : emailType,
+
+            "titre" : requiredString,
+
+            "date" : requiredString,
+
+            "duree" : requiredNumber,
+
+            "nombre_copies" : requiredNumber,
+
+            "questions" : [
+                {
+                    "intitule" : requiredString,
+
+                    "points" : requiredNumber,
+
+                    "hasMultChoices" : requiredBoolean,
+
+                    "reponses" : [
+                        {
+                            "content" : String,
+                            "isGoodAnswer" : Boolean
+                        }
+                    ]
+
+            }]
+     }]},
+
      {
          timestamps : true,
          collection : 'Users'

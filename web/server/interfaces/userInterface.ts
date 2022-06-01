@@ -25,4 +25,23 @@ export default interface IUser extends Document {
     password : string,
     projectPath : string,
     registrationDate : Date,
+    UserMCQs : [{
+        "user_email" : string,
+        "titre" : string,
+        "date" : string,
+        "duree" : number,
+        "exemplaire" : number,
+        "questions" : [
+            {
+                "intitule" : string,
+                "hasMultChoices" : boolean,
+                "reponses" : [
+                    {
+                        "content" : string,
+                        "isGoodAnswer" : boolean
+                    }
+                ]
+            }
+        ]
+    }]
 }
