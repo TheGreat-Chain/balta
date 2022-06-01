@@ -17,7 +17,7 @@
  import bcryptjs from 'bcryptjs';
  import joi from 'joi';
  import { exec } from 'child_process';
-
+ import nodemailer from 'nodemailer';
  import logging from '../config/logging';
  import User from '../models/userSchema';
  import signJWT from "../functions/signJWT";

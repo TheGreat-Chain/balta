@@ -18,7 +18,7 @@
  */
  import { NextFunction, Request, Response } from 'express';
  import { exec } from 'child_process';
- import MCQ from "../models/MCQSchema"
+ import MCQ from "../models/MCQSchema";
 
  import logging from '../config/logging';
 import MCQTest from '../interfaces/MCQInterface';
@@ -40,20 +40,20 @@ import MCQTest from '../interfaces/MCQInterface';
     qcmTxt += "Presentation : Veuillez répondre aux questions ci-dessous du mieux que vous pouvez. Durée : "+qcmJson.duree+" minutes. Noté sur : "+qcmJson.totalPoints+" points\n"; 
 
 
-    for(let question = 0 ; question < qcmJson.questions.length ; question++){
-        if(qcmJson.questions[question].hasMultChoices == true){
-            qcmTxt += "** "+qcmJson.questions[question].intitule+"\n";
+    for(const question of qcmJson.questions){
+        if(question.hasMultChoices){
+            qcmTxt += "** "+question.intitule+"\n";
         }else{
-            qcmTxt += "* "+qcmJson.questions[question].intitule+"\n";
+            qcmTxt += "* "+question.intitule+"\n";
         }
         
-        qcmTxt += "# POINTS : "+qcmJson.questions[question].points + "\n";
+        qcmTxt += "# POINTS : "+question.points + "\n";
 
-        for(let reponse = 0; reponse < qcmJson.questions[question].reponses.length; reponse ++){
-            if(qcmJson.questions[question].reponses[reponse].isGoodAnswer){
-                qcmTxt += "+ "+qcmJson.questions[question].reponses[reponse].content+"\n";
+        for(const response of question.reponses){
+            if(response.isGoodAnswer){
+                qcmTxt += "+ "+response.content+"\n";
             }else{
-                qcmTxt += "- "+qcmJson.questions[question].reponses[reponse].content+"\n";
+                qcmTxt += "- "+response.content+"\n";
             }
         }
         qcmTxt += "\n";

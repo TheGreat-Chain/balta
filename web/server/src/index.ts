@@ -16,6 +16,7 @@ server.get('/api', (req :Request, res :Response) =>  {
     res.send('Ca marche !');
 });
 
+
 // Database connection 
 mongoose.connect(config.mongo.url,config.mongo.options)
     //Si la connexion à la base de donnée est réussie, alors le serveur se connecte au port spécifié 

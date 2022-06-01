@@ -10,7 +10,7 @@ import logging from '../config/logging';
  * @param req 
  * @param res 
  * @param next 
- * @returns 
+ * @returns response.status as a json 
  */
 const extractJWT =  (req : Request, res : Response, next : NextFunction) => {
     logging.log('Auth', 'Validating token');
