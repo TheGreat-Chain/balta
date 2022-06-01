@@ -22,7 +22,7 @@
  import User from '../models/userSchema';
  import signJWT from "../functions/signJWT";
 
- /**
+/**
   * To use to validate jwt.
   * 
   * @param req : Client request object
@@ -62,11 +62,10 @@
         });
         return
     }else if(password === "") {
-        res.status(400).json({
+        return res.status(400).json({
             messsage: "Aucun password renseigné",
             success: false
         });
-        return
     }
 
     //Verify if an email is correct
@@ -75,7 +74,7 @@
      const regexExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
 
      if(!regexExp.test(email)){
-         res.status(400).json({
+         return res.status(400).json({
              messsage: "L'email n'est pas valide.",
              success: false
          });
@@ -83,21 +82,19 @@
 
     // Verify password length
     if(password.length <= 6) {
-        res.status(400).json({
+        return res.status(400).json({
             messsage: "Le mot de passe est trop court",
             success: false
         });
-        return
     }
 
     // Existing email ? :
     const loginExist = await User.findOne({ email: email});
     if(loginExist) {
-        res.status(400).json({
+        return res.status(400).json({
             messsage: "L'adresse email est déjà utilisée.",
             success: false
         });
-        return
     }
     
     // Hash the password before storing the user
@@ -130,7 +127,8 @@
              .catch((error: { message: any; }) => {
                  return res.status(500).json({
                      message: error.message,
-                     error
+                     error,
+                     success : false
                  });
              });
      });
@@ -155,17 +153,22 @@ const loginSchema = joi.object({
  const login = async (req: Request, res: Response, next: NextFunction) => {
 
     // Existing email ? :
-    const user = await User.findOne({ login: req.body.email });
+    const user = await User.findOne({ email: req.body.email });
     if (!user) {
-        return res.status(400).send("Incorrect login");
+        return res.status(400).json({
+            messsage: "Incorrect login",
+            success: false
+        });
     }
 
     // Passwords match ? :
     const validPassword = await bcryptjs.compare(req.body.password, user.password);
-    
 
     if(!validPassword) {
-        return res.status(400).send("Incorrect Password");
+        return res.status(400).json({
+            messsage: "Incorrect password",
+            success: false
+        });
     }
 
     try {
@@ -173,21 +176,21 @@ const loginSchema = joi.object({
         const { error } = await loginSchema.validateAsync(req.body);
         
         if(error) {
-            return res.status(400).send(error.details[0].message);
+            return res.status(400).json(error);
         } else {
-            res.send("Success ! Sending the JWT token ...");
-            // sending the token
-            signJWT(user, function (_error, token) {
+            await signJWT(user, function (_error, token) {
                 if (_error) {
                     return res.status(500).json({
                         message: _error.message,
-                        error: _error
+                        error: _error,
+                        success : false
                     });
                 } else if (token) {
                     return res.status(200).json({
                         message: 'Auth successful',
                         token: token,
-                        user: user
+                        user: user,
+                        success : true
                     })
                 }
             });
