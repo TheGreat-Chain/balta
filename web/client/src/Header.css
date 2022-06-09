@@ -1,0 +1,79 @@
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap');
+
+/* Reset */
+ul {list-style: none;}
+
+/* Basic style */
+body {font-size:var(--font-size); font-family: 'Source Sans Pro', sans-serif;}
+
+
+/* Navbar */
+.container-links {display: flex; align-items:center;}
+.navbar {display:flex; align-items:center; justify-content: space-between; height:65px; padding: 10px; background-color: var(--content-bg-color); color:var(--text-color);}
+.navbar__links {display: flex;}
+.navbar__link {padding:0 12px;}
+.navbar__link > a {text-decoration:none; color:var(--text-color); font-size: 18px;}
+.burger {display: none;}
+
+.container-icon {display: flex; align-items: center; justify-content: center;}
+
+/* Header connected */
+.icon-logout:before {content:"\e902"; }
+
+.icon-theme, .icon-logout {font-size: 1.5rem; cursor:pointer; transition:opacity .5s;}
+.icon-logout:hover, .icon-theme:hover {opacity:0.7}
+
+.icon-theme {margin:0 5px 0 12px; transition:transform 1s cubic-bezier(0.22, 0.61, 0.36, 1)}
+.App .icon-theme:before {content:"\e901";}
+.App.light-mode .icon-theme:before {content:"\e904";}
+.App .icon-theme {transform:rotate(0deg);}
+.App.light-mode .icon-theme {transform:rotate(360deg);}
+
+
+
+
+
+/* small devices */
+@media screen and (max-width:650px) {
+    /* NavBar and links */
+    .navbar__links {display:flex; flex-direction:column; width:0; height:0; position:absolute; top:65px; right:0px; background-color: var(--content-bg-color); transition:width .5s ease-in-out; overflow:hidden}
+    .show-nav .navbar__links {width:100%; height:calc(100vh - 65px);}
+    .navbar__link {transform:translateX(100%);}
+    .show-nav .navbar__link {transform:translateX(0);}
+    .navbar__link > a {display: block; padding:1rem; font-size: 1.6rem; transition:all .4s ease-in-out;}
+    .navbar__link > .active {background: linear-gradient(to right, var(--page-bg-color), 30%, var(--content-bg-color));}
+    .navbar__link > a:hover {display: block; padding-left:1.3rem; opacity: 0.7;}
+    
+    .icon-logout:before, .icon-theme:before {font-size: 2.5rem;}
+    .icon-theme {margin-right:10px}
+    .container-icon {display:flex; width:0; height:0; opacity:0; position:fixed; bottom: 76px; overflow:hidden}
+    .show-nav .container-icon {width:100%; height:40px; left:0; opacity: 1; transition:opacity 2s cubic-bezier(1, -0.58, 1, 1)}
+
+    /* toggle menu */
+    .burger {display:block; position: relative; padding:0; width: 45px; height: 45px; border:none; background: transparent; cursor: pointer;}
+    .bar {display:block; width:45px; height:4px; background: var(--text-color); border-radius: 3px; transition:all .5s ease-in-out}
+    .show-nav .bar {width:0; background-color: transparent;}
+    .bar::before, .bar::after {content:""; width:45px; height:4px; position:absolute; left:0; background-color: var(--text-color); border-radius: 3px; transition:all .5s ease-in-out}
+    .bar::before {transform:translateY(-12px)}
+    .show-nav .bar::before {transform:rotate(45deg);}
+    .bar::after {transform:translateY(+12px)}
+    .show-nav .bar::after {transform:rotate(-45deg);}
+
+    /* bonus-animation */
+    .show-nav .first {transition:all 1s ease-out}
+    .show-nav .second {transition:all 1.1s ease-out}
+    .show-nav .third {transition:all 1.2s ease-out}
+    .show-nav .fourth {transition:all 1.3s ease-out}
+    .show-nav .fifth {transition:all 1.4s ease-out}
+}
+
+/* Medium devices */
+
+@media screen and (min-width:650px) {
+    .navbar__link > a::after {display: block; content:""; width:0; height:1px; background-color: var(--text-color); transition: width .4s;}
+    .navbar__link:hover > a::after {width:100%}
+    .navbar__link > .active::after {width:100%}
+
+    .header-logo {width:30px;}
+}

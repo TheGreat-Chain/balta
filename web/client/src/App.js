@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter } from 'react-router-dom';
+import { useState } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import HeaderNotConnected from './NotConnected/HeaderNotConnected.js'
+import ContentNotConnected from './NotConnected/ContentNotConnected.js'
+import HeaderConnected from './Connected/HeaderConnected.js'
+import ContentConnected from './Connected/ContentConnected.js'
+import './App.css'
+import './GlobalContent.css'
+import './Header.css'
+
+// import Test from './Test.js';
+
+function App () {
+    const [isNotConnected, setIsNotConnected] = useState("false");
+    const toggleConnected = () => {
+        // alert("eyo");/
+        setIsNotConnected(!isNotConnected);
+    };
+
+    return (
+        <BrowserRouter>
+            <div className="App">
+                {/* <button onClick={toggleConnected}>salut</button> */}
+                {/* <div onClick={toggleConnected}>{isConnected}</div> */}
+                {!isNotConnected ? 
+                    <div><HeaderNotConnected /> <ContentNotConnected /></div>
+                    : 
+                    <div><HeaderConnected /> <ContentConnected /></div> 
+                }
+
+            </div>
+        </BrowserRouter>
+        
+    );
 }
 
 export default App;

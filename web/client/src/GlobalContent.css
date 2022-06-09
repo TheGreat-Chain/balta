@@ -1,0 +1,86 @@
+/* Reset */
+a, a:hover, a:focus, a:active {color:inherit; text-decoration:inherit; cursor: pointer;}
+input[type="text"] {border:none;}
+
+/* main-content */
+.page-content {padding:1rem 0; height:calc(100vh - 65px); background-color: var(--page-bg-color); display:flex; justify-content: center; /* overflow-y:auto; */}
+.main-content {display:flex; flex-direction:column; background-color: var(--content-bg-color); border:2px solid var(--border-color);}
+
+.slogan {text-align: center; font-weight: 600;}
+.content-title, .input-title {font-weight:300;}
+.subtitle {color: #8B949E}
+
+.input-container > input[type="text"], .input-container > input[type="password"] {width:100%; color: #FFFFFF; background-color: var(--page-bg-color); border:2px solid var(--border-color)}
+a {color:var(--green-color);}
+.button-subtitle {text-align: center;}
+
+/* Button */
+.primary-button {display:flex; align-items:center; justify-content: center; background-color: var(--green-color); color:var(--text-color); transition:all .5s;}
+.secondary-button {display:flex; align-items:center; justify-content: center; background-color: var(--content-bg-color); color:var(--green-color); border:2px solid var(--green-color);  transition:all .5s;}
+.App.light-mode .secondary-button {color:black}
+.primary-button:hover, .primary-button:focus {background-color: var(--green-color-hover); color:var(--text-color);}
+.secondary-button:hover, .secondary-button:focus {background-color: var(--green-color-hover); color:var(--text-color); border:2px solid var(--green-color-hover)}
+
+
+/*---------------------------------------
+---------------RESPONSIVE----------------
+---------------------------------------*/
+
+/* 651 < screen */
+@media screen and (min-width:651px) {
+    /* Main content */
+    .main-content {padding:2rem 1.5rem; width:450px; height:800px;}
+    img {width:70px; margin:0 auto 25px}
+    .slogan {margin-bottom: 30px; font-size:18px;}
+    .content-title {font-size:22px; margin-bottom: 30px;}
+    .subtitle {font-size:14px; margin-bottom: 20px;}
+
+    .input-title {font-size:16px; margin-bottom:12px}
+    .input-container > input[type="text"], .input-container > input[type="password"] {height:58px; padding:15px; font-size: 16px; margin-bottom:25px;}
+    
+    a {font-size:14px}
+    .button-subtitle {font-size:14px;}
+
+    /* Primary and Secondary button */
+    .primary-button, .secondary-button {height:58px; margin-bottom: 15px;}
+}
+
+/* 391 < screen < 650 */
+@media screen and (max-width:650px) {
+    /* Main content */
+    .main-content {padding:2rem 1.5rem; width:390px; height:740px;}
+    img {width:85px; margin:0 auto 25px}
+    .slogan {margin-bottom: 30px; font-size:18px;}
+    .content-title {font-size:22px; margin-bottom: 20px;}
+    .subtitle {font-size:14px; margin-bottom: 15px;}
+
+    .input-title {font-size:16px; margin-bottom:12px}
+    .input-container > input[type="text"], .input-container > input[type="password"] {height:53px; padding:15px; font-size: 16px; margin-bottom:20px;}
+    
+
+    a {font-size:14px}
+    .button-subtitle {font-size:14px;}
+
+    /* Primary and Secondary button */
+    .primary-button, .secondary-button {height:53px; margin-bottom: 15px;}
+}
+
+/* screen < 390 */
+@media screen and (max-width:390px) {
+    /* Main content */
+    .main-content {padding:1rem 1.5rem; width:300px; height:550px;}
+    img {width:55px; margin:0 auto 20px}
+    .slogan {margin-bottom: 20px; font-size:16px;}
+    .content-title {font-size:20px; margin-bottom: 20px;}
+    .subtitle {font-size:12px; margin-bottom: 15px;}
+
+    .input-title {font-size:14px; margin-bottom:6px}
+    .input-container > input[type="text"], .input-container > input[type="password"] {height:40px; padding:10px; font-size: 14px; margin-bottom:15px;}
+    
+    a {font-size:12px}
+    .button-subtitle {font-size:12px;}
+
+    /* Primary and Secondary button */
+    .primary-button, .secondary-button {height:40px; margin-bottom: 15px;}
+}
+

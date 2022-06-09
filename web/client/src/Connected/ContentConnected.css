@@ -1,0 +1,71 @@
+/* Content général */
+.mes-qcm, .mes-corrections {padding-top:30px}
+.mes-qcm .title, .mes-corrections .title {font-size:30px; text-align: center; font-weight:600; margin-bottom: 40px;}
+.tab-content {width:1450px; border:1px solid var(--border-color)}
+.header-tab {height:80px; background-color: var(--content-bg-color); display:flex; align-items: center; font-size: 18px; border:1px solid var(--border-color)}
+.tab-title {}
+.header-tab div:nth-child(1n+3), .ligne-tab div:nth-child(1n+3) {display:flex; justify-content: center;}
+
+.ligne-tab {display:flex; align-items:center; height:60px; background-color: var(--page-bg-color); border:1px solid var(--border-color); color:#8B949E}
+
+/* Header de mes-qcm */
+.mes-qcm .header-tab > div:nth-child(2), .ligne-tab div:nth-child(2) {width: 340px;}
+.mes-qcm .header-tab > div:nth-child(3), .ligne-tab div:nth-child(3) {width:230px}
+.mes-qcm .header-tab > div:nth-child(4), .ligne-tab div:nth-child(4) {width: 255px;}
+.mes-qcm .header-tab > div:nth-child(5), .ligne-tab div:nth-child(5) {width: 335px;}
+.mes-qcm .header-tab > div:nth-child(6), .ligne-tab div:nth-child(6) {width: 210px;}
+
+.mes-corrections .header-tab > div:nth-child(2), .ligne-tab div:nth-child(2) {width: 340px;}
+.mes-corrections .header-tab > div:nth-child(3), .ligne-tab div:nth-child(3) {width:230px}
+.mes-corrections .header-tab > div:nth-child(4), .ligne-tab div:nth-child(4) {width: 255px;}
+.mes-corrections .header-tab > div:nth-child(5), .ligne-tab div:nth-child(5) {width: 335px;}
+.mes-corrections .header-tab > div:nth-child(6), .ligne-tab div:nth-child(6) {width: 210px;}
+
+.icon-delete, .icon-edit, .icon-export {margin-top:10px; cursor:pointer; color:#8B949E}
+.icon-delete:before {content:"\e905"; font-size:1.2rem; margin-right:4px}
+.icon-edit:before {content:"\e906"; font-size:1.7rem; margin-right:4px}
+.icon-export:before {content:"\e907"; font-size:1.2rem;}
+
+/* Voir pour mettres des n-th child */
+
+.content-ligne-tab {}
+
+/* CheckBox */
+.checkbox-container {display: block;position: relative; color: #474747;padding-left: 20px;margin:0 20px 0 35px;cursor: pointer;font-size: 0.875rem;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+.checkbox-container input {position: absolute;opacity: 0;cursor: pointer;height: 0;width: 0;}
+.checkbox-icon-checkmark {position: absolute;top: -8px;left: 0;height: 20px;width: 20px;background-color: rgb(0, 0, 0, 0); box-sizing: border-box; border: 2px solid var(--green-color);}
+.checkbox-icon-checkmark:after {content: "";position: absolute;display: none; }
+.checkbox-container input:checked ~ .checkbox-icon-checkmark:after {display: block; }
+.checkbox-container .checkbox-icon-checkmark:after {left: 2px;top: 3px; content: "\e903"; color: var(--green-color); font-size: 11px;}
+
+
+/*---------------------------------------
+---------------RESPONSIVE----------------
+---------------------------------------*/
+
+/* 651 < screen */
+@media screen and (min-width:651px) {
+    /* Accueil connecté */
+    .accueil-con .content-title {text-align: center; margin-bottom: 50px;}
+    .accueil-con .slogan {margin-bottom: 50px;}
+    .accueil-con .primary-button, .accueil-con .secondary-button {margin-bottom: 35px;}
+
+    /* Tous les QCM */
+    /* .mes-qcm {padding:50px} */
+}
+
+/* 391 < screen < 650 */
+@media screen and (max-width:650px) {
+/* Accueil connecté */
+    .accueil-con .content-title {text-align: center; margin-bottom: 50px;}
+    .accueil-con .slogan {margin-bottom: 50px;}
+    .accueil-con .primary-button, .accueil-con .secondary-button {margin-bottom: 35px;}
+}
+
+/* screen < 390 */
+@media screen and (max-width:390px) {
+    /* Accueil connecté */
+    .accueil-con .content-title {text-align: center; margin-bottom: 40px;}
+    .accueil-con .slogan {margin-bottom: 40px;}
+    .accueil-con .primary-button, .accueil-con .secondary-button {margin-bottom: 25px;}
+}

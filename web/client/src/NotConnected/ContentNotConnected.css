@@ -1,0 +1,53 @@
+/* Connexion */
+.password-forget {text-align:right}
+
+/*---------------------------------------
+---------------RESPONSIVE----------------
+---------------------------------------*/
+
+/* 651 < screen */
+@media screen and (min-width:651px) {
+    /* Connexion */
+    .password-forget {text-align: right; margin-bottom: 40px;}
+    .input-container > input[type="password"] {margin-bottom:15px;}
+
+    /* Inscription */
+    .inscription-page > .main-content > .slogan {margin-bottom: 9px;}
+    .inscription-page .content-title {margin-bottom: 20px;}
+    .inscription-page .input-container {margin-bottom: 15px;}
+    .inscription-page .input-container > input[type="text"], .inscription-page .input-container > input[type="password"] {margin-bottom: 12px;}
+
+    /* Password Forget */
+    .password-forget-page .slogan {margin-bottom: 80px;}
+}
+
+/* 391 < screen < 650 */
+@media screen and (max-width:650px) {
+    /* Connexion */
+    .password-forget {text-align: right; margin-bottom: 40px;}
+    .connexion-page .input-container > input[type="password"] {margin-bottom:15px;}
+
+    /* Inscription */
+    .inscription-page > .main-content > .slogan {margin-bottom: 10px;}
+    .inscription-page .content-title {margin-bottom: 15px;}
+    .inscription-page .input-container {margin-bottom: 15px;}
+    .inscription-page .input-container > input[type="text"], .inscription-page .input-container > input[type="password"] {margin-bottom: 8px;}
+    
+    /* Password Forget */
+    .password-forget-page .slogan {margin-bottom: 80px;}
+}
+
+/* screen < 390 */
+@media screen and (max-width:390px) {
+    /* Connexion */
+    .password-forget {text-align: right; margin-bottom: 40px;}
+    .connexion-page .input-container > input[type="password"] {margin-bottom:10px;}
+
+    /* Inscription */
+    .inscription-page > .main-content > .slogan {margin-bottom: 7px;}
+    .inscription-page .content-title {margin-bottom: 12px;}
+    .inscription-page .input-container > input[type="text"], .inscription-page .input-container > input[type="password"] {margin-bottom: 7px;}
+    
+    /* Password Forget */
+    .password-forget-page .slogan {margin-bottom: 60px;}
+}
