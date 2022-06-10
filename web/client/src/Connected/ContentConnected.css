@@ -21,6 +21,17 @@
 .mes-corrections .header-tab > div:nth-child(5), .ligne-tab div:nth-child(5) {width: 335px;}
 .mes-corrections .header-tab > div:nth-child(6), .ligne-tab div:nth-child(6) {width: 210px;}
 
+/* liste-des-notes */
+.liste-des-notes .header-tab > div:nth-child(2), .liste-des-notes .ligne-tab div:nth-child(2) {width:400px; margin-right: 100px;}
+.liste-des-notes .header-tab > div:nth-child(3), .liste-des-notes .ligne-tab div:nth-child(3) {justify-content:left; width:300px; margin-right: 0px;}
+.liste-des-notes .header-tab > div:nth-child(4), .liste-des-notes .ligne-tab div:nth-child(4) {width: 300px; margin-right: 100px;}
+.liste-des-notes .header-tab > div:nth-child(5), .liste-des-notes .ligne-tab div:nth-child(5) {width: 100px;}
+.liste-des-notes .title {margin-bottom: 20px;}
+.liste-des-notes .container-button {position:absolute; right:0; display: flex;}
+.liste-des-notes .primary-button, .liste-des-notes .secondary-button {width:200px; height:40px;}
+.liste-des-notes .secondary-button {margin-right: 15px;}
+.liste-des-notes .en-tete {position:relative; height:115px}
+
 .icon-delete, .icon-edit, .icon-export {margin-top:10px; cursor:pointer; color:#8B949E}
 .icon-delete:before {content:"\e905"; font-size:1.2rem; margin-right:4px}
 .icon-edit:before {content:"\e906"; font-size:1.7rem; margin-right:4px}
