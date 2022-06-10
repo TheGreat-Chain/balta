@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom"
+
 function MesCorrections() {
     return (
         <div className="mes-corrections">
@@ -26,8 +28,7 @@ function MesCorrections() {
                     <div className="content-ligne-tab">INF1-A1</div>
                     <div className="container-actions">
                         <span className="icon-delete"></span>
-                        <span className="icon-edit"></span>
-                        <span className="icon-export"></span>
+                        <NavLink to="/liste-des-notes"><span className="icon-export"></span></NavLink>
                     </div>
                 </div>
             </div>
