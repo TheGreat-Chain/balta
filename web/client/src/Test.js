@@ -9,8 +9,6 @@ function Variable () {
     return (isNotConnected);
 }
 
-
-
 function Fonction () {
     const [isNotConnected, setIsNotConnected] = useState("false");
     const toggleConnected = () => {

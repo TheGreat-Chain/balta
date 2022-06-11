@@ -1,8 +1,47 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import logo from '../../image/logo_balta_white 1.svg'
 
 function PageInscription() {
+    const navigate = useNavigate();
+
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [password2, setPassword2] = useState('');
+
+    function passwordsEven() {
+        return(password2 === password);
+    }
+
+    async function registerUser(event) {
+        event.preventDefault();
+        console.log('YOO');  
+
+        const response = await fetch('http://localhost:3001/api/user/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username,
+                email,
+                password,
+            })
+        });
+
+        const data = await response.json();
+
+        if(data.success) {
+            navigate.push('/login')
+        }
+        else
+            toast(data.message);
+    }
+
     return (
         <div className="inscription-page">
             <div className="main-content">
@@ -12,18 +51,50 @@ function PageInscription() {
                 <div className="content-title">INSCRIPTION</div>
                 
                 <div className="input-container">
-                    <div className="input-title">Identifiant</div>
-                    <input type="text" placeholder="Votre identifiant"/>
+                    <form onSubmit={registerUser}>
+                        <input 
+                            value = {username}
+                            onChange = { function(e) { setUsername(e.target.value) } }
+                            type="text" 
+                            placeholder="Votre identifiant"
+                            
+                        />
+                        <br/>
 
-                    <div className="input-title">Adresse e-mail</div>
-                    <input type="text" placeholder="adresse@xyz.com"/>
+                        <input 
+                            value = {email}
+                            onChange = { function(e) { setEmail(e.target.value) } }
+                            type="email" 
+                            placeholder="adresse@xyz.com" 
+                            />
+                        <br/>
 
-                    <div className="input-title">Mot de passe</div>
-                    <input type="password" placeholder="mot de passe"/>
-                    
-                    <div className="input-title">Confirmation de Mot de passe</div>
-                    <input type="password" placeholder="mot de passe"/>
-                    
+                        <input 
+                            value = {password}
+                            onChange = { function(e) { setPassword(e.target.value) } }
+                            type="password" 
+                            placeholder="Mot de passe" 
+                        />
+                        <br/>
+
+                        <input 
+                            value = {password2}
+                            onChange = {    function(e) { 
+                                                setPassword2(e.target.value);
+                                                if(!passwordsEven){
+                                                    toast("Les mots de passe ne correspondent pas. Réessayez.");
+                                                    setPassword2("");
+                                                }
+                                            } 
+                                        }
+                            type="password" 
+                            placeholder="Confirmez le mot de passe"
+                        />
+                        <ToastContainer/>
+                        <br/>
+
+                        <input type="submit" value="INSCRIPTION"/>
+                    </form>                   
                 </div>
 
                 <NavLink to="/" className="primary-button">

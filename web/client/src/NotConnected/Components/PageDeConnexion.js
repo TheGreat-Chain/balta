@@ -52,6 +52,7 @@ function PageDeConnexion() {
                             onChange = { function(e) { setEmail(e.target.value) } }
                             type="email" 
                             placeholder="adresse@xyz.com" 
+                            className="input-title"
                         />
                         <br/>
 
@@ -61,10 +62,11 @@ function PageDeConnexion() {
                             onChange = { function(e) { setPassword(e.target.value) } }
                             type="password" 
                             placeholder="Mot de passe" 
+                            className="input-title"
                         />
                         <br/>
 
-                        <input type="submit" value="Connexion"/>
+                        <input className="primary-button" type="submit" value="Connexion"/>
                     </form>
                     
                 </div>
