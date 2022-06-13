@@ -11,11 +11,6 @@ function PageInscription() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [password2, setPassword2] = useState('');
-
-    function passwordsEven() {
-        return(password2 === password);
-    }
 
     async function registerUser(event) {
         event.preventDefault();
@@ -34,12 +29,10 @@ function PageInscription() {
         });
 
         const data = await response.json();
+        alert(data.message);
 
-        if(data.success) {
-            navigate.push('/login')
-        }
-        else
-            toast(data.message);
+        if(data.success) 
+            navigate('/connexion');
     }
 
     return (
@@ -75,22 +68,6 @@ function PageInscription() {
                             type="password" 
                             placeholder="Mot de passe" 
                         />
-                        <br/>
-
-                        <input 
-                            value = {password2}
-                            onChange = {    function(e) { 
-                                                setPassword2(e.target.value);
-                                                if(!passwordsEven){
-                                                    toast("Les mots de passe ne correspondent pas. Réessayez.");
-                                                    setPassword2("");
-                                                }
-                                            } 
-                                        }
-                            type="password" 
-                            placeholder="Confirmez le mot de passe"
-                        />
-                        <ToastContainer/>
                         <br/>
 
                         <input type="submit" value="INSCRIPTION"/>

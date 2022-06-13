@@ -54,7 +54,10 @@ const requiredBoolean = {
          },
  
          email : {
-             type : emailType
+            type: String,
+            required: true,
+            match: /.+\@.+\..+/,
+            unique: true
          },
  
          password : {
@@ -70,6 +73,7 @@ const requiredBoolean = {
              required : true,
              default : Date.now()
          },
+         
         UserMCQs : [ {
             user_email : emailType,
 

@@ -49,6 +49,7 @@
   */
  const register = async (req: Request, res: Response, next: NextFunction) => {
     let {username, email, password} = req.body;
+    console.log("Username : " + username + "\nemail : " + email + "\npassword : " + password);
 
     if(username === ""){
         res.status(400).json({
@@ -69,10 +70,7 @@
     }
 
     //Verify if an email is correct
-
-     // Regular expression to check if string is email
-     const regexExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
-
+    const regexExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
      if(!regexExp.test(email)){
          return res.status(400).json({
              messsage: "L'email n'est pas valide.",
@@ -81,9 +79,9 @@
      }
 
     // Verify password length
-    if(password.length <= 6) {
+    if(password.length < 6) {
         return res.status(400).json({
-            messsage: "Le mot de passe est trop court",
+            messsage: "Le mot de passe est trop court. Minimum 6 caractères.",
             success: false
         });
     }
@@ -107,7 +105,6 @@
          }
 
          const user = new User({
-             _id: new mongoose.Types.ObjectId(),
              username,
              email,
              password: hash,
@@ -115,18 +112,19 @@
          });
 
          // Create an AMC folder for every new user
-         createNewProject(user.email);
+         createNewProject(email);
  
+         // save the user and return the status
          return user.save()
              .then((user: any) => {
                  return res.status(201).json({
-                     user,
+                     message : "Utilisateur créé avec succès !",
                      success : true
                  });
              })
              .catch((error: { message: any; }) => {
                  return res.status(500).json({
-                     message: error.message,
+                     message: "Erreur lors de la création de l'utilisateur." + error.message,
                      error,
                      success : false
                  });
@@ -156,17 +154,16 @@ const loginSchema = joi.object({
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
         return res.status(400).json({
-            messsage: "Incorrect login",
+            messsage: "L'email renseigné n'existe pas.",
             success: false
         });
     }
 
     // Passwords match ? :
     const validPassword = await bcryptjs.compare(req.body.password, user.password);
-
     if(!validPassword) {
         return res.status(400).json({
-            messsage: "Incorrect password",
+            messsage: "Le mot de passe ne correspond pas.",
             success: false
         });
     }
@@ -174,7 +171,6 @@ const loginSchema = joi.object({
     try {
         // Validation of user inputs
         const { error } = await loginSchema.validateAsync(req.body);
-        
         if(error) {
             return res.status(400).json(error);
         } else {
@@ -196,6 +192,10 @@ const loginSchema = joi.object({
             });
         }
     } catch(e) {
+        return res.status(500).json({
+            message : e,
+            success: false
+        });
         res.status(500).send(e);
     }
  };
@@ -258,17 +258,17 @@ const loginSchema = joi.object({
 
     let projectPath = `$HOME/Projets-QCM/${userEmail}`;
 
-    exec(`mkdir ${projectPath}/$1 && mkdir ${projectPath}/$1/cr && mkdir ${projectPath}/$1/cr/corrections && mkdir ${projectPath}/$1/cr/corrections/jpg && mkdir ${projectPath}/$1/cr/corrections/pdf && mkdir ${projectPath}/$1/cr/diagnostic && mkdir ${projectPath}/$1/cr/zooms && mkdir ${projectPath}/$1/data && mkdir ${projectPath}/$1/exports && mkdir ${projectPath}/$1/scans && mkdir ${projectPath}/$1/copies`
+    exec(`mkdir ${projectPath} && mkdir ${projectPath}/cr && mkdir ${projectPath}/cr/corrections && mkdir ${projectPath}/cr/corrections/jpg && mkdir ${projectPath}/cr/corrections/pdf && mkdir ${projectPath}/cr/diagnostic && mkdir ${projectPath}/cr/zooms && mkdir ${projectPath}/data && mkdir ${projectPath}/exports && mkdir ${projectPath}/scans && mkdir ${projectPath}/copies`
         , (error, stdout, stderr) => {
             if(error) {
-                console.log(error.message);
+                console.log("Erreur dans la création du projet : \n" + error.message);
                 return error.message;
             }
             if(stderr) {
-                console.log(stderr)
-                return stderr
+                console.log("Erreur dans la création du projet : \n" + stderr);
+                return stderr;
             }
-            console.log(stdout);
+            console.log("Création d'un projet AMC : \n" + stdout);
      });
 }
 
