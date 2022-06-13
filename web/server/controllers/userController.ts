@@ -111,7 +111,8 @@
              username,
              email,
              password: hash,
-             registrationDate : Date.now()
+             registrationDate : Date.now(),
+             UserMCQs : []
          });
 
          // Create an AMC folder for every new user

@@ -18,10 +18,9 @@
  */
  import { NextFunction, Request, Response } from 'express';
  import { exec } from 'child_process';
- import MCQ from "../models/MCQSchema";
 
  import logging from '../config/logging';
-import MCQTest from '../interfaces/MCQInterface';
+
 
 
 /**
@@ -33,7 +32,7 @@ import MCQTest from '../interfaces/MCQInterface';
  * @param qcmJson JSON object representing an MCQ
  * @returns String.
  */
- function jsonToString (qcmJson: MCQTest) {
+ function jsonToString (qcmJson : any) {
     let qcmTxt = "# AMC-TXT source \n";
     qcmTxt += "#** -> question à choix multiple \n\n"
     qcmTxt += "PaperSize : A4\nLang : FR\nTitle: "+ qcmJson.titre+"\n\n";
