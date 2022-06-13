@@ -78,10 +78,11 @@ export function createNewMCQ (req : Request, res : Response, next : NextFunction
     let nbCopie = req.body.nbCopie
     let qcmTxt = jsonToString(req.body.qcm)
 
+
     // placer le txt dans projectPath
 
     // generer le pdf
-    exec(`auto-multiple-choice prepare --mode s --data data --filter plain --n-copies ${nbCopie} ${qcmTxt} > /dev/null 2> /dev/null`,
+    /*exec(`auto-multiple-choice prepare --mode s --data data --filter plain --n-copies ${nbCopie} ${qcmTxt} > /dev/null 2> /dev/null`,
         (error, stdout, stderr) =>{
             if(error) {
                 console.log(error.message);
@@ -92,7 +93,11 @@ export function createNewMCQ (req : Request, res : Response, next : NextFunction
                 return stderr
             }
             console.log(stdout);
-        })
+        })*/
+}
+
+export function getUserMCQs (req : Request, res : Response, next : NextFunction) {
+
 }
 
 

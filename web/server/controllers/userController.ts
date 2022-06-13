@@ -30,7 +30,7 @@
   * @param next : Next function
   * @returns Server response object
   */
- const validateToken = (req: Request, res: Response, next: NextFunction) => {
+ export const validateToken = (req: Request, res: Response, next: NextFunction) => {
      logging.log('User', 'Token validated, user authorized.');
  
      return res.status(200).json({
@@ -47,7 +47,7 @@
   * @param next : Next function
   * @returns Server response object
   */
- const register = async (req: Request, res: Response, next: NextFunction) => {
+ export const register = async (req: Request, res: Response, next: NextFunction) => {
     let {username, email, password} = req.body;
 
     if(username === ""){
@@ -151,7 +151,7 @@ const loginSchema = joi.object({
   * @param next : Next function
   * @returns Server response object
   */
- const login = async (req: Request, res: Response, next: NextFunction) => {
+ export const login = async (req: Request, res: Response, next: NextFunction) => {
 
     // Existing email ? :
     const user = await User.findOne({ email: req.body.email });
@@ -212,7 +212,7 @@ const loginSchema = joi.object({
   * To know how it works : https://devdocs.io/mongoose/api/model
   * 
   */
- const getAllUsers =  (req : Request, res : Response, next : NextFunction) => {
+ export const getAllUsers =  (req : Request, res : Response, next : NextFunction) => {
     User.find()
     .select('-password') //To exclude the password when requesting the user documents
     .exec() // executes the query and returns a promise
@@ -237,7 +237,7 @@ const loginSchema = joi.object({
      * @param res 
      * @param next 
      */
-    const deleteUser = function(req : Request, res : Response, next : NextFunction ) {
+    export const deleteUser = function(req : Request, res : Response, next : NextFunction ) {
         User.deleteOne({ email : req.body.email}) 
         .then(function () {
             console.log('Utilisateur supprimé');
@@ -255,7 +255,7 @@ const loginSchema = joi.object({
   * @userID : 1 user <=> 1 folder. To keep every folder unique, they are named as the user's id in mongoDB
   * @return : the error message if there is one
   */
-  function createNewProject(userEmail: String) {
+  export function createNewProject(userEmail: String) {
 
     let projectPath = `$HOME/Projets-QCM/${userEmail}`;
 
@@ -299,5 +299,13 @@ const sendForgotPassword : RequestHandler = async(req: Request, res: Response, n
     }
 };
 */
+
+export function getUserByID(req : Request, res : Response, next : NextFunction){
+
+}
+
+export function updatePassword(req : Request, res : Response, next : NextFunction) {
+
+}
  
- export default { validateToken, register, login, getAllUsers, deleteUser };
+ export default { validateToken, register, login, getAllUsers, deleteUser, getUserByID, UpdatePassword: updatePassword };
