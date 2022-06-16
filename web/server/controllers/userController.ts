@@ -15,12 +15,14 @@
  import { NextFunction, Request, Response } from 'express';
  import mongoose from 'mongoose';
  import bcryptjs from 'bcryptjs';
+ import cookieParser from 'cookie-parser';
  import joi from 'joi';
  import { exec } from 'child_process';
  import nodemailer from 'nodemailer';
  import logging from '../config/logging';
  import User from '../models/userSchema';
  import signJWT from "../functions/signJWT";
+
 
 /**
   * To use to validate jwt.
@@ -51,20 +53,20 @@
     let {username, email, password} = req.body;
     console.log("Username : " + username + "\nemail : " + email + "\npassword : " + password);
 
-    if(username === ""){
+    if(username === "" || typeof(username) === undefined){
         res.status(400).json({
-            messsage :"Aucun username renseigné",
+            message : "Aucun username renseigné",
             success : false});
         return
-    }else if(email === "") {
+    }else if(email === "" || typeof(email) === undefined) {
         res.status(400).json({
-            messsage: "Aucun email renseigné",
+            message: "Aucun email renseigné",
             success: false
         });
         return
-    }else if(password === "") {
+    }else if(password === "" || typeof(password) === undefined) {
         return res.status(400).json({
-            messsage: "Aucun password renseigné",
+            message: "Aucun password renseigné",
             success: false
         });
     }
@@ -73,7 +75,7 @@
     const regexExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
      if(!regexExp.test(email)){
          return res.status(400).json({
-             messsage: "L'email n'est pas valide.",
+             message: "L'email n'est pas valide.",
              success: false
          });
      }
@@ -81,7 +83,7 @@
     // Verify password length
     if(password.length < 6) {
         return res.status(400).json({
-            messsage: "Le mot de passe est trop court. Minimum 6 caractères.",
+            message: "Le mot de passe est trop court. Minimum 6 caractères.",
             success: false
         });
     }
@@ -90,7 +92,7 @@
     const loginExist = await User.findOne({ email: email});
     if(loginExist) {
         return res.status(400).json({
-            messsage: "L'adresse email est déjà utilisée.",
+            message: "L'adresse email est déjà utilisée.",
             success: false
         });
     }
@@ -154,7 +156,7 @@ const loginSchema = joi.object({
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
         return res.status(400).json({
-            messsage: "L'email renseigné n'existe pas.",
+            message: "L'email renseigné n'existe pas.",
             success: false
         });
     }
@@ -163,7 +165,7 @@ const loginSchema = joi.object({
     const validPassword = await bcryptjs.compare(req.body.password, user.password);
     if(!validPassword) {
         return res.status(400).json({
-            messsage: "Le mot de passe ne correspond pas.",
+            message: "Les identifiants ne correspondent pas.",
             success: false
         });
     }
@@ -177,26 +179,26 @@ const loginSchema = joi.object({
             await signJWT(user, function (_error, token) {
                 if (_error) {
                     return res.status(500).json({
-                        message: _error.message,
+                        message: "Erreur dans la création du token d'accès : " + _error.message,
                         error: _error,
                         success : false
                     });
                 } else if (token) {
-                    return res.status(200).json({
+                    return res
+                    .cookie("access-token", token, { httpOnly: true })
+                    .status(200)
+                    .json({
                         message: 'Auth successful',
-                        token: token,
-                        user: user,
                         success : true
-                    })
+                    });
                 }
             });
         }
     } catch(e) {
         return res.status(500).json({
-            message : e,
+            message : "Erreur lors de la tentative de connexion : \n" + e,
             success: false
         });
-        res.status(500).send(e);
     }
  };
  

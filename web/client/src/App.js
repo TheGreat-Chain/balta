@@ -14,7 +14,6 @@ import './Header.css'
 function App () {
     const [isNotConnected, setIsNotConnected] = useState("false");
     const toggleConnected = () => {
-        // alert("eyo");/
         setIsNotConnected(!isNotConnected);
     };
 

@@ -10,7 +10,7 @@ function PageDeConnexion() {
 
     async function connexion(event) {
         event.preventDefault();
-        const response = await fetch('http:/localhost:3001/api/user/login', 
+        const response = await fetch('http://localhost:3001/api/user/login', 
         {
           method: 'POST',
           headers: {
@@ -25,13 +25,13 @@ function PageDeConnexion() {
         });
     
         const data = await response.json();
-        alert(data.message);
-        if(data.user){
-          //indiquer qu'on est connecté
-          window.location.href = '/' //page d'accueil
+        
+        if(data.success === true){
+          console.log(data);
+          //window.location.href = '/' //page d'accueil
         }
         else{
-          alert('please check your username and password')
+            alert(data.message);
         }
       }
 
@@ -52,6 +52,7 @@ function PageDeConnexion() {
                             type="email" 
                             placeholder="adresse@xyz.com" 
                             className="input-title"
+                            required
                         />
                         <br/>
 
@@ -62,6 +63,8 @@ function PageDeConnexion() {
                             type="password" 
                             placeholder="Mot de passe" 
                             className="input-title"
+                            minlength="6"
+                            required
                         />
                         <br/>
 
@@ -73,7 +76,7 @@ function PageDeConnexion() {
                 <NavLink to="/password-forget"><div className="password-forget">Mot de passe oublié ?</div></NavLink>
 
                 <NavLink to="/" className="primary-button">
-                    <div className="primary-text">CONNEXION</div>
+                    {/* <input type="submit" value="connexion" className="primary-text">CONNEXION</input> */}
                 </NavLink>
             
                 <div className="button-subtitle">Pas encore de compte ? <NavLink to="/inscription">Créer un compte</NavLink></div>

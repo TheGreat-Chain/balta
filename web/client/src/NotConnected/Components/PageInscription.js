@@ -27,8 +27,9 @@ function PageInscription() {
             })
         });
 
-        const data = await  response.json();
-        alert("réponse : " + data.message);
+        const data = await response.json();
+        alert("data : " +  data.message);
+        console.log("data : " + data);
 
         if(data.success) {
             alert("Veuillez maintenant vous connecter.");
