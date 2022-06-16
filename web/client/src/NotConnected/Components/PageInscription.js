@@ -13,8 +13,7 @@ function PageInscription() {
     const [password, setPassword] = useState('');
 
     async function registerUser(event) {
-        event.preventDefault();
-        console.log('YOO');  
+        event.preventDefault(); 
 
         const response = await fetch('http://localhost:3001/api/user/register', {
             method: 'POST',
@@ -28,11 +27,13 @@ function PageInscription() {
             })
         });
 
-        const data = await response.json();
-        alert(data.message);
+        const data = await  response.json();
+        alert("réponse : " + data.message);
 
-        if(data.success) 
+        if(data.success) {
+            alert("Veuillez maintenant vous connecter.");
             navigate('/connexion');
+        }
     }
 
     return (
@@ -50,7 +51,8 @@ function PageInscription() {
                             onChange = { function(e) { setUsername(e.target.value) } }
                             type="text" 
                             placeholder="Votre identifiant"
-                            
+                            required
+                            minlength="4"                            
                         />
                         <br/>
 
@@ -58,7 +60,8 @@ function PageInscription() {
                             value = {email}
                             onChange = { function(e) { setEmail(e.target.value) } }
                             type="email" 
-                            placeholder="adresse@xyz.com" 
+                            placeholder="adresse@xyz.com"
+                            required 
                             />
                         <br/>
 
@@ -67,6 +70,8 @@ function PageInscription() {
                             onChange = { function(e) { setPassword(e.target.value) } }
                             type="password" 
                             placeholder="Mot de passe" 
+                            required
+                            minlength="6"
                         />
                         <br/>
 

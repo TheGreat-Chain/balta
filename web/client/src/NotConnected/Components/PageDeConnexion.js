@@ -10,7 +10,7 @@ function PageDeConnexion() {
 
     async function connexion(event) {
         event.preventDefault();
-        const response = await fetch('http://localhost:3001/api/user/login', 
+        const response = await fetch('http:/localhost:3001/api/user/login', 
         {
           method: 'POST',
           headers: {
@@ -25,8 +25,7 @@ function PageDeConnexion() {
         });
     
         const data = await response.json();
-    
-        console.log(data)
+        alert(data.message);
         if(data.user){
           //indiquer qu'on est connecté
           window.location.href = '/' //page d'accueil
