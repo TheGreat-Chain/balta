@@ -27,7 +27,9 @@ function PageDeConnexion() {
         const data = await response.json();
         
         if(data.success === true){
-          console.log(data);
+          console.log("données : " + data);
+          let cookie = document.cookie;
+          console.log(cookie);
           //window.location.href = '/' //page d'accueil
         }
         else{

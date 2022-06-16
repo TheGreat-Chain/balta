@@ -201,59 +201,12 @@ const loginSchema = joi.object({
         });
     }
  };
- 
- /** 
-  * To get all the users from the Users collection in MongoDB.
-  * 
-  * @param req : Client request object
-  * @param res : Server response object
-  * @param next : Next function
-  * @returns : all the users from the Users collection in MongoDB.
-  * 
-  * To know how it works : https://devdocs.io/mongoose/api/model
-  * 
-  */
- const getAllUsers =  (req : Request, res : Response, next : NextFunction) => {
-    User.find()
-    .select('-password') //To exclude the password when requesting the user documents
-    .exec() // executes the query and returns a promise
-    .then((results: string | any[]) => {
-        return res.status(200).json({
-            users : results,
-            counts : results.length
-        });
-    })
-    .catch((error: { message: any; }) => {
-        return res.status(500).json({
-            message : error.message,
-            error
-        });
-    });
-};
-    /**
-     * !! TO CONTINUE :  DOESNT DELETE THE RESSOURCE !!
-     * 
-     * Deletes the user that does the request (? use with jwt ?)
-     * @param req 
-     * @param res 
-     * @param next 
-     */
-    const deleteUser = function(req : Request, res : Response, next : NextFunction ) {
-        User.deleteOne({ email : req.body.email}) 
-        .then(function () {
-            console.log('Utilisateur supprimé');
-            return res.status(200);
-        }).catch(function(err: Error) {
-            console.log(err);
-            return res.status(400);
-        })
-    }
 
-     /** Creates a new AMC-Latex project. 
+/** Creates a new AMC-Latex project. 
   *  It is a unique folder that has the userID as a name.
   *  Not a callback function.
   * 
-  * @userID : 1 user <=> 1 folder. To keep every folder unique, they are named as the user's id in mongoDB
+  * @userEmail : 1 user <=> 1 folder. To keep every folder unique, they are named as the user's id in mongoDB
   * @return : the error message if there is one
   */
   function createNewProject(userEmail: String) {
