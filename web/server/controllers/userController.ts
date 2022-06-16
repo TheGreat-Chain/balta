@@ -185,7 +185,7 @@ const loginSchema = joi.object({
                     });
                 } else if (token) {
                     return res
-                    .cookie("access-token", token, { httpOnly: true })
+                    .cookie("access-token", token)
                     .status(200)
                     .json({
                         message: 'Auth successful',
@@ -254,4 +254,4 @@ const sendForgotPassword : RequestHandler = async(req: Request, res: Response, n
 };
 */
  
- export default { validateToken, register, login, getAllUsers, deleteUser };
+ export default { validateToken, register, login };
