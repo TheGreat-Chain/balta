@@ -15,14 +15,12 @@
  * 
  */
 
- import express from 'express';
+ import express, {Request, Response} from 'express';
  import { validateToken, register, login, getAllUsers, deleteUser, getUserByID, updatePassword } from '../controllers/userController';
  import {getUserMCQs, createNewMCQ} from '../controllers/AMCController';
  import extractJWT from '../middleware/extractJWT';
 
  const router = express.Router();
- 
-
 
  router.get('/validateToken', extractJWT, validateToken);
 
@@ -33,7 +31,7 @@
  router.get('/getAllMCQs/:id', extractJWT, getUserMCQs);
  router.get('/getUserByID/:id', extractJWT, getUserByID);
 
- router.put('updatePassword:id',extractJWT, updatePassword);
- router.put('updateMCQ/:id', extractJWT, createNewMCQ); // requête PUT car on update le tableau UserMCQ's qui est déjà existant
+ router.put('/updatePassword/:id',extractJWT, updatePassword);
+ router.put('/createMCQ/:id', extractJWT, createNewMCQ);// requête PUT car on update le tableau UserMCQ's qui est déjà existant
 
- export = router;
+export = router;

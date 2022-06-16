@@ -23,7 +23,7 @@ function App () {
             <div className="App">
                 {/* <button onClick={toggleConnected}>salut</button> */}
                 {/* <div onClick={toggleConnected}>{isConnected}</div> */}
-                {isNotConnected ? 
+                {!isNotConnected ? 
                     <div><HeaderNotConnected /> <ContentNotConnected /></div>
                     : 
                     <div><HeaderConnected /> <ContentConnected /></div> 

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { NavLink } from 'react-router-dom';
+import logoBlack from '../image/logo_balta_black 1.svg'
+import logoWhite from '../image/logo_balta_white 1.svg'
 // import toggleConnected from '../App'
 
 function HeaderConnected () {
@@ -25,7 +27,10 @@ function HeaderConnected () {
     
     return (
         <nav className={isActive ? "navbar" : "navbar show-nav"}>
-            <div className="navbar__logo">Logo</div>
+            <div className="navbar__logo">
+                <img src={lightMode ? logoWhite : logoBlack} alt="" />
+                <div>BALTA</div>
+            </div>
 
             {/* <img src={logo} className="header-logo" alt="logo" />
             <div className="titre-balta">BALTA</div> */}

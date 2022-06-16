@@ -15,8 +15,8 @@ a {color:var(--green-color);}
 .button-subtitle {text-align: center;}
 
 /* Button */
-.primary-button {display:flex; align-items:center; justify-content: center; background-color: var(--green-color); color:var(--text-color); transition:all .5s;}
-.secondary-button {display:flex; align-items:center; justify-content: center; background-color: var(--content-bg-color); color:var(--green-color); border:2px solid var(--green-color);  transition:all .5s;}
+.primary-button {display:flex; align-items:center; justify-content: center; background-color: var(--green-color); color:var(--text-color); transition:all .5s; cursor:pointer}
+.secondary-button {display:flex; align-items:center; justify-content: center; background-color: rbga(0, 0, 0, 0); color:var(--green-color); border:2px solid var(--green-color);  transition:all .5s; cursor:pointer}
 .App.light-mode .secondary-button {color:black}
 .primary-button:hover, .primary-button:focus {background-color: var(--green-color-hover); color:var(--text-color);}
 .secondary-button:hover, .secondary-button:focus {background-color: var(--green-color-hover); color:var(--text-color); border:2px solid var(--green-color-hover)}
@@ -30,7 +30,7 @@ a {color:var(--green-color);}
 @media screen and (min-width:651px) {
     /* Main content */
     .main-content {padding:2rem 1.5rem; width:450px; height:800px;}
-    img {width:70px; margin:0 auto 25px}
+    .page-content img {width:70px; margin:0 auto 25px}
     .slogan {margin-bottom: 30px; font-size:18px;}
     .content-title {font-size:22px; margin-bottom: 30px;}
     .subtitle {font-size:14px; margin-bottom: 20px;}

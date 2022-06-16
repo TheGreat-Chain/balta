@@ -1,41 +1,8 @@
 import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
-import env from 'react-dotenv';
 
 import logo from '../../image/logo_balta_white 1.svg'
 
 function PageDeConnexion() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    async function connexion(event) {
-        event.preventDefault();
-        const response = await fetch('http://localhost:3001/api/user/login', 
-        {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-    
-          body: JSON.stringify({
-            email,
-            password,
-          })
-
-        });
-    
-        const data = await response.json();
-    
-        console.log(data)
-        if(data.user){
-          //indiquer qu'on est connecté
-          window.location.href = '/' //page d'accueil
-        }
-        else{
-          alert('please check your username and password')
-        }
-      }
-
     return (
         <div className="connexion-page">
             <div className="main-content">
@@ -45,27 +12,11 @@ function PageDeConnexion() {
                 <div className="content-title">CONNEXION</div>
                 
                 <div className="input-container">
-                    <form onSubmit={connexion}>
-                        <div className="input-title">Adresse e-mail</div>
-                        <input 
-                            value = {email}
-                            onChange = { function(e) { setEmail(e.target.value) } }
-                            type="email" 
-                            placeholder="adresse@xyz.com" 
-                        />
-                        <br/>
+                    <div className="input-title">Adresse e-mail</div>
+                    <input type="text" placeholder="adresse@xyz.com"/>
 
-                        <div className="input-title">Mot de passe</div>
-                        <input 
-                            value = {password}
-                            onChange = { function(e) { setPassword(e.target.value) } }
-                            type="password" 
-                            placeholder="Mot de passe" 
-                        />
-                        <br/>
-
-                        <input type="submit" value="Connexion"/>
-                    </form>
+                    <div className="input-title">Mot de passe</div>
+                    <input type="password" placeholder="mot de passe"/>
                     
                 </div>
 

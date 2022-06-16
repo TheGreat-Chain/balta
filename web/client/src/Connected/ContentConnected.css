@@ -1,6 +1,6 @@
-/* Content général */
-.mes-qcm, .mes-corrections {padding-top:30px}
-.mes-qcm .title, .mes-corrections .title {font-size:30px; text-align: center; font-weight:600; margin-bottom: 40px;}
+/* Content général tableau */
+.mes-qcm, .mes-corrections, .creation-qcm, .liste-des-notes {padding-top:30px}
+.mes-qcm .title, .mes-corrections .title, .creation-qcm .title, .liste-des-notes .title {font-size:30px; text-align: center; font-weight:600; margin-bottom: 40px;}
 .tab-content {width:1450px; border:1px solid var(--border-color)}
 .header-tab {height:80px; background-color: var(--content-bg-color); display:flex; align-items: center; font-size: 18px; border:1px solid var(--border-color)}
 .tab-title {}
@@ -8,18 +8,26 @@
 
 .ligne-tab {display:flex; align-items:center; height:60px; background-color: var(--page-bg-color); border:1px solid var(--border-color); color:#8B949E}
 
-/* Header de mes-qcm */
-.mes-qcm .header-tab > div:nth-child(2), .ligne-tab div:nth-child(2) {width: 340px;}
-.mes-qcm .header-tab > div:nth-child(3), .ligne-tab div:nth-child(3) {width:230px}
-.mes-qcm .header-tab > div:nth-child(4), .ligne-tab div:nth-child(4) {width: 255px;}
-.mes-qcm .header-tab > div:nth-child(5), .ligne-tab div:nth-child(5) {width: 335px;}
-.mes-qcm .header-tab > div:nth-child(6), .ligne-tab div:nth-child(6) {width: 210px;}
+/* mes-qcm */
+.mes-qcm .header-tab > div:nth-child(2), .mes-qcm .ligne-tab div:nth-child(2) {width: 340px;}
+.mes-qcm .header-tab > div:nth-child(3), .mes-qcm .ligne-tab div:nth-child(3) {width:230px}
+.mes-qcm .header-tab > div:nth-child(4), .mes-qcm .ligne-tab div:nth-child(4) {width: 255px;}
+.mes-qcm .header-tab > div:nth-child(5), .mes-qcm .ligne-tab div:nth-child(5) {width: 335px;}
+.mes-qcm .header-tab > div:nth-child(6), .mes-qcm .ligne-tab div:nth-child(6) {width: 210px;}
+/* Margin top parce que y a icon-edit qui est plus grand que les autres */
+.mes-qcm .icon-delete, .mes-qcm .icon-export {margin-top:10px;}
+.mes-qcm a, .mes-qcm .primary-button {margin-top:10px}
+.mes-qcm .en-tete-mes-qcm {position:relative; display:flex; justify-content:center; align-items: center; margin-bottom: 24px; height: 70px}
+.mes-qcm .primary-button {width:200px; height:40px; position:absolute; right:0}
+.mes-qcm .title {margin-bottom: 0px;}
+.mes-qcm {padding-top:14px}
 
-.mes-corrections .header-tab > div:nth-child(2), .ligne-tab div:nth-child(2) {width: 340px;}
-.mes-corrections .header-tab > div:nth-child(3), .ligne-tab div:nth-child(3) {width:230px}
-.mes-corrections .header-tab > div:nth-child(4), .ligne-tab div:nth-child(4) {width: 255px;}
-.mes-corrections .header-tab > div:nth-child(5), .ligne-tab div:nth-child(5) {width: 335px;}
-.mes-corrections .header-tab > div:nth-child(6), .ligne-tab div:nth-child(6) {width: 210px;}
+/* mes-corrections */
+.mes-corrections .header-tab > div:nth-child(2), .mes-corrections .ligne-tab div:nth-child(2) {width: 340px;}
+.mes-corrections .header-tab > div:nth-child(3), .mes-corrections .ligne-tab div:nth-child(3) {width:230px}
+.mes-corrections .header-tab > div:nth-child(4), .mes-corrections .ligne-tab div:nth-child(4) {width: 255px;}
+.mes-corrections .header-tab > div:nth-child(5), .mes-corrections .ligne-tab div:nth-child(5) {width: 335px;}
+.mes-corrections .header-tab > div:nth-child(6), .mes-corrections .ligne-tab div:nth-child(6) {width: 210px;}
 
 /* liste-des-notes */
 .liste-des-notes .header-tab > div:nth-child(2), .liste-des-notes .ligne-tab div:nth-child(2) {width:400px; margin-right: 100px;}
@@ -32,14 +40,52 @@
 .liste-des-notes .secondary-button {margin-right: 15px;}
 .liste-des-notes .en-tete {position:relative; height:115px}
 
-.icon-delete, .icon-edit, .icon-export {margin-top:10px; cursor:pointer; color:#8B949E}
+.icon-delete, .icon-edit, .icon-export {cursor:pointer; color:#8B949E;}
 .icon-delete:before {content:"\e905"; font-size:1.2rem; margin-right:4px}
-.icon-edit:before {content:"\e906"; font-size:1.7rem; margin-right:4px}
+.icon-edit:before {content:"\e906"; font-size:1.7rem;}
+.mes-qcm .icon-edit:before { margin-right:4px}
 .icon-export:before {content:"\e907"; font-size:1.2rem;}
 
-/* Voir pour mettres des n-th child */
+
 
 .content-ligne-tab {}
+
+/* creation-qcm */
+.creation-qcm .header-page {display:flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
+.creation-qcm .titre-qcm .title-qcm {font-size: 17px; margin-bottom: 10px;}
+.creation-qcm input{Width:350px; height:35px; padding:0 10px ; margin-bottom: 15px; border:2px solid var(--border-color); background-color: var(--page-bg-color); color: #8B949E; font-size:17px}
+.creation-qcm .container-button {display: flex;}
+.creation-qcm .nombre-question {color: #8B949E; margin-top: 15px; margin-left:70px}
+.creation-qcm .container-button .primary-button, .creation-qcm .container-button .secondary-button {height:40px; margin-top:25px}
+.creation-qcm .container-button .secondary-button {width:230px; margin-right:20px}
+.creation-qcm .container-button .primary-button {width:180px}
+.creation-qcm .icon-delete, .creation-qcm .icon-edit {margin-top:10px;}
+
+.creation-qcm .header-tab > div:nth-child(2), .creation-qcm .ligne-tab div:nth-child(2) {width: 380px;}
+.creation-qcm .header-tab > div:nth-child(3), .creation-qcm .ligne-tab div:nth-child(3) {width:270px}
+.creation-qcm .header-tab > div:nth-child(4), .creation-qcm .ligne-tab div:nth-child(4) {width: 380px; margin-right: 120px;}
+.creation-qcm .header-tab > div:nth-child(5), .creation-qcm .ligne-tab div:nth-child(5) {width: 210px;}
+
+/* Fenetre modale creation question */
+.creation-qcm .overlay {background: var(--text-color); opacity:30%; position:absolute; top:0; right:0; bottom: 0; left: 0; z-index:2}
+.creation-question {height:700px; width:900px; padding:50px 40px;background: var(--page-bg-color); position:absolute; top:50%; left:50%; transform:translate(-50%, -55%); z-index:3; border: 2px solid var(--border-color); box-shadow: 0px 1px 4px var(--page-bg-color);}
+
+.creation-question .titre-enonce {margin-bottom: 10px;}
+.creation-question input {width:100%; margin-bottom: 20px;}
+
+.creation-question .container-des-reponses {height:370px; overflow: auto; margin-bottom: 30px;}
+.creation-question .container-reponse {display:flex}
+.creation-question .container-reponse > :nth-child(1) {width:70px; padding-top:32px; text-align: center;}
+
+.creation-question .container-reponse > :nth-child(2) {width:595px;}
+.creation-question .reponse :nth-child(1) {margin-bottom: 15px;}
+
+.creation-question .container-reponse > :nth-child(3) {width:150px; text-align: center;}
+.checkbox-position {margin:30px 0 0 30px}
+
+.creation-question .secondary-button {width:230px; height:40px; margin-left:calc(100% - 230px); margin-top: 15px; margin-bottom: 0;}
+.creation-question .primary-button {width:150px; height:40px; margin-left:calc(50% - (150px/2))}
+
 
 /* CheckBox */
 .checkbox-container {display: block;position: relative; color: #474747;padding-left: 20px;margin:0 20px 0 35px;cursor: pointer;font-size: 0.875rem;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}

@@ -31,6 +31,12 @@ body {font-size:var(--font-size); font-family: 'Source Sans Pro', sans-serif;}
 .App.light-mode .icon-theme {transform:rotate(360deg);}
 
 
+/* Logo */
+.navbar__logo {display: flex; justify-content: center; align-items: center; margin-left: 10px;}
+.navbar__logo img {width:30px; margin-right: 10px;}
+.navbar__logo div {font-size:22px; letter-spacing: 7px;}
+
+
 
 
 

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { NavLink } from 'react-router-dom';
+import logoBlack from '../image/logo_balta_black 1.svg'
+import logoWhite from '../image/logo_balta_white 1.svg'
 
 function HeaderNotConnected () {
     const [isActive, setActive] = useState("false");
@@ -16,7 +18,10 @@ function HeaderNotConnected () {
 
     return (
         <nav className={isActive ? "navbar" : "navbar show-nav"}>
-        <div className="navbar__logo">Logo</div>
+        <div className="navbar__logo">
+                <img src={lightMode ? logoWhite : logoBlack} alt="" />
+                <div>BALTA</div>
+            </div>
 
         <div className="container-links">
             <ul className="navbar__links">

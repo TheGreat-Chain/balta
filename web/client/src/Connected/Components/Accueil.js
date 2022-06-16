@@ -11,7 +11,7 @@ function Accueil() {
 
                 <div className="content-title">BIENVENUE</div>
 
-                <NavLink to="/" className="primary-button">
+                <NavLink to="/creation-qcm" className="primary-button">
                     <div className="primary-text">CREER UN NOUVEAU QCM</div>
                 </NavLink>
                 <NavLink to="/mes-QCM" className="secondary-button">

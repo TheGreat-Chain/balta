@@ -18,8 +18,9 @@
  */
  import { NextFunction, Request, Response } from 'express';
  import { exec } from 'child_process';
-
+ import User from '../models/userSchema';
  import logging from '../config/logging';
+import {ObjectId} from "mongodb";
 
 
 
@@ -72,16 +73,34 @@
   */
 export function createNewMCQ (req : Request, res : Response, next : NextFunction) {
 
+    const id = req.params.id
+     const qcm = req.body
+    //const projectPath = `$HOME/Projets-QCM/${userEmail}`
+     const nbCopie = req.body.nbCopie
+    //const qcmTxt = jsonToString(req.body.qcm)
 
-    const userEmail = req.body.user_email
-    let projectPath = `$HOME/Projets-QCM/${userEmail}`
-    let nbCopie = req.body.nbCopie
-    let qcmTxt = jsonToString(req.body.qcm)
+     User.findOneAndUpdate(
+         { _id: new ObjectId(id) },
+         { $push: {UserMCQs: qcm}},(err: any) => {
+             if (err) {
+                 res.status(500).json({
+                     success: false,
+                     message: "BALTA_ERR_005 : Le QCM n'a pas été enregistré dans la BD."
+                 })
+             } else {
+                 //TODO
+                 // placer le txt dans projectPath
+                 // generer le pdf
+
+                 res.status(400).json({
+                     success: true,
+                     message: "SUCCESS : QCM ENREGISTRE DANS LA BD"
+                 })
+             }
+         })
 
 
-    // placer le txt dans projectPath
 
-    // generer le pdf
     /*exec(`auto-multiple-choice prepare --mode s --data data --filter plain --n-copies ${nbCopie} ${qcmTxt} > /dev/null 2> /dev/null`,
         (error, stdout, stderr) =>{
             if(error) {
@@ -99,6 +118,5 @@ export function createNewMCQ (req : Request, res : Response, next : NextFunction
 export function getUserMCQs (req : Request, res : Response, next : NextFunction) {
 
 }
-
 
 
