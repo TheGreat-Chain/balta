@@ -71,8 +71,6 @@ const requiredBoolean = {
              default : Date.now()
          },
         UserMCQs : [ {
-            user_email : emailType,
-
             "titre" : requiredString,
 
             "date" : requiredString,

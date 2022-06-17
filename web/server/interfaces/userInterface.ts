@@ -26,7 +26,6 @@ export default interface IUser extends Document {
     projectPath : string,
     registrationDate : Date,
     UserMCQs : [{
-        "user_email" : string,
         "titre" : string,
         "date" : string,
         "duree" : number,

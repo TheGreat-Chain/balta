@@ -76,7 +76,7 @@ export function createNewMCQ (req : Request, res : Response, next : NextFunction
     const id = req.params.id
      const qcm = req.body
     //const projectPath = `$HOME/Projets-QCM/${userEmail}`
-     const nbCopie = req.body.nbCopie
+     //const nbCopie = req.body.nbCopie
     //const qcmTxt = jsonToString(req.body.qcm)
 
      User.findOneAndUpdate(
@@ -92,7 +92,7 @@ export function createNewMCQ (req : Request, res : Response, next : NextFunction
                  // placer le txt dans projectPath
                  // generer le pdf
 
-                 res.status(400).json({
+                 res.status(200).json({
                      success: true,
                      message: "SUCCESS : QCM ENREGISTRE DANS LA BD"
                  })
@@ -113,6 +113,58 @@ export function createNewMCQ (req : Request, res : Response, next : NextFunction
             }
             console.log(stdout);
         })*/
+}
+
+export function updateMCQ (req : Request, res : Response, next : NextFunction) {
+    const id = req.params.id
+    const id_qcm = req.params.id_qcm
+    const qcm = req.body
+    let userModif;
+    /*
+    User.updateOne(
+        { _id: new ObjectId(id), UserMCQs : {_id : new ObjectId(id_qcm)}},
+        { $set: {"UserMCQs.$": qcm}},(err: any) => {
+            if (err) {
+                res.status(500).json({
+                    success: false,
+                    message: "BALTA_ERR_005 : Le QCM n'a pas été enregistré dans la BD."
+                })
+            } else {
+                //TODO
+                // placer le txt dans projectPath
+                // generer le pdf
+
+                res.status(200).json({
+                    success: true,
+                    message: "SUCCESS : LE QCM A BIEN ETE MODIFIE"
+                })
+            }
+        })*/
+        /*await User.aggregate([
+            {"$match" : {"_id" : new ObjectId(id)}},
+            {"$match" : {"UserMCQs._id" : new ObjectId(id_qcm)}},
+        ], function(err: any, user: any )
+        {
+            if (err)
+            {
+                res.send(err);
+            }
+            //user.UserMCQs =
+            userModif = user;
+            res.json(user);
+        });*/
+    User.findOneAndUpdate({ "UserMCQs._id" : new ObjectId(id_qcm) }, {"UserMCQs.$" : qcm}, (error : any, success : any) => {
+        if (error){
+            res.json(error)
+        }else
+            res.json(success)
+    } )
+
+}
+
+export function removeMCQ(req : Request, res : Response, next : NextFunction) {
+    const id = req.params.id
+    const id_qcm = req.params.id_qcm
 }
 
 export function getUserMCQs (req : Request, res : Response, next : NextFunction) {
