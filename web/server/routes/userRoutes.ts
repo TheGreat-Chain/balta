@@ -17,7 +17,7 @@
 
  import express, {Request, Response} from 'express';
  import { validateToken, register, login, getAllUsers, deleteUser, getUserByID, updatePassword } from '../controllers/userController';
- import {getUserMCQs, createNewMCQ, updateMCQ} from '../controllers/AMCController';
+ import {getUserMCQs, createNewMCQ, updateMCQ, deleteMCQ} from '../controllers/AMCController';
  import extractJWT from '../middleware/extractJWT';
 
  const router = express.Router();
@@ -33,6 +33,8 @@
 
  router.put('/updatePassword/:id',extractJWT, updatePassword);
  router.put('/createMCQ/:id', extractJWT, createNewMCQ);// requête PUT car on update le tableau UserMCQ's qui est déjà existant
- router.put('/updateMCQ/:id/:id_qcm', extractJWT, updateMCQ);
+ router.put('/updateMCQ/:id_qcm', extractJWT, updateMCQ);
+ router.put('/deleteMCQ/:id/:id_qcm', extractJWT, deleteMCQ);
+
 
 export = router;

@@ -119,46 +119,28 @@ export function updateMCQ (req : Request, res : Response, next : NextFunction) {
     const id = req.params.id
     const id_qcm = req.params.id_qcm
     const qcm = req.body
-    let userModif;
-    /*
-    User.updateOne(
-        { _id: new ObjectId(id), UserMCQs : {_id : new ObjectId(id_qcm)}},
-        { $set: {"UserMCQs.$": qcm}},(err: any) => {
-            if (err) {
-                res.status(500).json({
-                    success: false,
-                    message: "BALTA_ERR_005 : Le QCM n'a pas été enregistré dans la BD."
-                })
-            } else {
-                //TODO
-                // placer le txt dans projectPath
-                // generer le pdf
+    const value = new ObjectId(id_qcm)
 
-                res.status(200).json({
-                    success: true,
-                    message: "SUCCESS : LE QCM A BIEN ETE MODIFIE"
-                })
-            }
-        })*/
-        /*await User.aggregate([
-            {"$match" : {"_id" : new ObjectId(id)}},
-            {"$match" : {"UserMCQs._id" : new ObjectId(id_qcm)}},
-        ], function(err: any, user: any )
-        {
-            if (err)
-            {
-                res.send(err);
-            }
-            //user.UserMCQs =
-            userModif = user;
-            res.json(user);
-        });*/
-    User.findOneAndUpdate({ "UserMCQs._id" : new ObjectId(id_qcm) }, {"UserMCQs.$" : qcm}, (error : any, success : any) => {
-        if (error){
-            res.json(error)
-        }else
-            res.json(success)
-    } )
+    try {
+        await User.updateOne(
+            {"UserMCQs._id" : value},
+            {$set : {"UserMCQs.$" : qcm}})
+    } catch (err) {
+        console.log({err})
+        return res.status(500).json({
+            success: false,
+            message: "BALTA_ERR_010 : Le QCM n'a pas été enregistré dans la BD."
+        })
+    }
+
+          // TODO
+           // placer le txt dans projectPath
+           // generer le pdf
+
+           res.status(200).json({
+               success: true,
+               message: "SUCCESS : LE QCM A BIEN ETE MODIFIE"
+           })
 
 }
 
