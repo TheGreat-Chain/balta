@@ -141,7 +141,6 @@ export function updateMCQ (req : Request, res : Response, next : NextFunction) {
                success: true,
                message: "SUCCESS : LE QCM A BIEN ETE MODIFIE"
            })
-
 }
 
 export function removeMCQ(req : Request, res : Response, next : NextFunction) {
