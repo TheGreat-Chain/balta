@@ -98,7 +98,7 @@
     }
     
     // Hash the password before storing the user
-     bcryptjs.hash(password, 10, (hashError: { message: String; }, hash: any) => {
+     bcryptjs.hash( password, 10, (hashError: { message: String; }, hash: any) => {
          if (hashError) {
              return res.status(401).json({
                  message: hashError.message,
@@ -297,7 +297,6 @@ async function deleteValidationCodeAfterTenMinutes(email: String) {
 
 const validateCode = async (req: Request, res: Response, next: NextFunction) => {
     // vérifier si le fichier portant le code existe toujours
-    console.log(req.body);
     const email: String = req.body.email;
     let input_code: String = req.body.code;
 
@@ -307,7 +306,7 @@ const validateCode = async (req: Request, res: Response, next: NextFunction) => 
             (error, stdout) => {
                 if(error){
                     return res.status(500).json({
-                        message : "Le code a expiré. Veuillez réessayer. \n",
+                        message : "Le code a expiré. Veuillez réessayer. \n" + error,
                         success: false
                      });
                 }
@@ -316,12 +315,12 @@ const validateCode = async (req: Request, res: Response, next: NextFunction) => 
             });
         })
 
-        //remove spaces
+        //remove invisble characters
         input_code.split(" ").join("");
         code.split(" ").join("");
+        code = code.substring(0, code.length - 1);
 
-        console.log(typeof input_code + " : " + input_code + "\n" + typeof code + " : " + code);
-        console.log("identiques ? : " + (input_code === code));
+        console.log(code + " : " + input_code);
 
         if(input_code === code) {
             return res.status(200).json({
@@ -330,9 +329,6 @@ const validateCode = async (req: Request, res: Response, next: NextFunction) => 
             });
         }
         else if(input_code !== code) {
-            console.log("pas identique pd");
-            console.log(typeof input_code + " : " + input_code + "\n" + typeof code + " : " + code);
-            console.log("identiques ? : " + (input_code === code));
             return res.status(500).json({
                 message : "Le code est invalide. Réessayer.",
                 success: false
@@ -346,8 +342,45 @@ const validateCode = async (req: Request, res: Response, next: NextFunction) => 
     }
 }
 
-const changePassword = async(req: Request, res: Response, next: NextFunction) => {
-    // prend le mot de passe en argument et le change dans la bd pour l'user portant cet email
+const changePassword = async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body);
+    let password = req.body.password;
+    let user = await User.findOne({ email: req.body.email });
+    
+    console.log(user);
+    
+    bcryptjs.hash(password, 10, (hashError: { message: String; }, hash: any) => {
+        if (hashError) {
+            return res.status(401).json({
+                message: "Erreur lors du hash du mot de passe.",
+                success: false
+            });
+        }
+
+        if (!user) {
+            return res.status(400).json({
+                message: "L'email renseigné n'existe pas.",
+                success: false
+            });
+        }
+
+        user.password = hash;
+
+        // save the user and return the status
+        return user.save()
+        .then((user: any) => {
+            return res.status(201).json({
+                message : "Mot de passe changé avec succès !",
+                success : true
+            });
+        })
+        .catch((error: { message: any; }) => {
+            return res.status(500).json({
+                message: "Erreur lors du changement de mot de passe.",
+                success : false
+            });
+        });
+    });
 }
  
 export default { validateToken, register, login, forgottenPassword, validateCode, changePassword};
