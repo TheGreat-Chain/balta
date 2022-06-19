@@ -15,7 +15,7 @@
  import { NextFunction, Request, Response } from 'express';
  import mongoose from 'mongoose';
  import bcryptjs from 'bcryptjs';
- import cookieParser from 'cookie-parser';
+ import config from "../config/config";
  import joi from 'joi';
  import { exec } from 'child_process';
  import nodemailer from 'nodemailer';
@@ -152,25 +152,25 @@ const loginSchema = joi.object({
   */
  const login = async (req: Request, res: Response, next: NextFunction) => {
 
-    // Existing email ? :
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-        return res.status(400).json({
-            message: "L'email renseigné n'existe pas.",
-            success: false
-        });
-    }
-
-    // Passwords match ? :
-    const validPassword = await bcryptjs.compare(req.body.password, user.password);
-    if(!validPassword) {
-        return res.status(400).json({
-            message: "Les identifiants ne correspondent pas.",
-            success: false
-        });
-    }
-
     try {
+        // Existing email ? :
+        const user = await User.findOne({ email: req.body.email });
+        if (!user) {
+            return res.status(400).json({
+                message: "L'email renseigné n'existe pas.",
+                success: false
+            });
+        }
+
+        // Passwords match ? :
+        const validPassword = await bcryptjs.compare(req.body.password, user.password);
+        if(!validPassword) {
+            return res.status(400).json({
+                message: "Les identifiants ne correspondent pas.",
+                success: false
+            });
+        }
+
         // Validation of user inputs
         const { error } = await loginSchema.validateAsync(req.body);
         if(error) {
@@ -240,18 +240,57 @@ let transporter = nodemailer.createTransport({
 });
 
 /**
-const sendForgotPassword : RequestHandler = async(req: Request, res: Response, next: NextFunction) => {
-    const {email} : {email : String}= req.body;
-    try{
-        const user = await users.findOne({email});
-        if(!user) return res.status(404).json({
-            message : 'Email not valid'
-        });
-        const encryptedToken = await bcryptjs.hash(user.id.toString(),8);
+ * Midleware that generates a random number and sends it to the given email.
+ * The user then has to enter the number sent to change his password with 
+ * the changePassword middleware.
+ * 
+ * @param req 
+ * @param res 
+ * @param next 
+ */
+const forgottenPassword = async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        // Existing email ? :
+        const user = await User.findOne({ email: req.body.email });
+        if (!user) {
+            return res.status(400).json({
+                message: "L'email renseigné n'existe pas.",
+                success: false
+            });
+        }
 
-        let mail = transporter.sendMail
+        const validationCode: string  = String(Math.floor(100000 + Math.random() * 900000));
+        exec('touch ' + config.validation_codes_dir + user.email);
+        exec('echo ' + validationCode + " >> " + config.validation_codes_dir + user.email);
+
+        setTimeout(function(){
+            exec('rm ' + config.validation_codes_dir + user.email);
+        }, 600000); // 600000ms = 10min
+
+        console.log("je continue !");
+    // - envoyer le code par mail
+
+    } catch(e) {
+        return res.status(500).json({
+            message : "Erreur lors de la vérification de l'email. : \n\n" + e,
+            success: false
+        });
     }
-};
-*/
+    
+}
+
+async function deletefile(time : number, file: string) {
+
+    
+}
+
+const validateCode = async(req: Request, res: Response, next: NextFunction) => {
+    // vérifier si le fichier portant le code existe toujours
+    // vérifier si le code est bon
+}
+
+const changePassword = async(req: Request, res: Response, next: NextFunction) => {
+    // prend le mot de passe en argument et le change dans la bd pour l'user portant cet email
+}
  
- export default { validateToken, register, login };
+export default { validateToken, register, login, forgottenPassword, validateCode, changePassword};

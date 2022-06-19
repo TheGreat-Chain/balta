@@ -24,11 +24,9 @@
  router.get('/validateToken', extractJWT, userController.validateToken);
  router.post('/register', userController.register);
  router.post('/login', userController.login);
- router.get("/logout", extractJWT, (req, res) => {
-    return res
-      .clearCookie("access_token")
-      .status(200)
-      .json({ message: "Vous allez être déconnecté." });
-  });
+
+router.post('/forgotten-password', userController.forgottenPassword);
+router.post('/validate-code', userController.validateCode);
+router.post('/change-password', userController.changePassword);
  
  export = router;
