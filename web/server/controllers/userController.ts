@@ -185,11 +185,11 @@ const loginSchema = joi.object({
                     });
                 } else if (token) {
                     return res
-                    .cookie("access-token", token)
                     .status(200)
                     .json({
                         message: 'Auth successful',
-                        success : true
+                        success : true,
+                        "token": token
                     });
                 }
             });

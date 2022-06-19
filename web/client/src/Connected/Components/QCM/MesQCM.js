@@ -1,4 +1,18 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+
 function MesQCM() {
+    const navigate = useNavigate();
+
+    //redirection si deconnexion
+    useEffect(function() {
+        if(! localStorage.getItem('access-token')) {
+            alert('Veuillez vous reconnecter.');
+            navigate("/connexion");
+        }
+    }, []);
+    // vérifier que l'user est bien connecté sinon rediriger.
     return (
         <div className="mes-qcm">
             <div className="title">TOUS LES QCM</div>

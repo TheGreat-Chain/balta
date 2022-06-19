@@ -1,10 +1,12 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import env from 'react-dotenv';
+
 
 import logo from '../../image/logo_balta_white 1.svg'
 
 function PageDeConnexion() {
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -27,10 +29,9 @@ function PageDeConnexion() {
         const data = await response.json();
         
         if(data.success === true){
-          console.log("données : " + data);
-          let cookie = document.cookie;
-          console.log(cookie);
-          //window.location.href = '/' //page d'accueil
+          console.log("données : " + JSON.stringify(data));
+          localStorage.setItem("access-token", data.token);
+          navigate('/accueil');
         }
         else{
             alert(data.message);

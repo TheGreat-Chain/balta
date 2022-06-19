@@ -7,23 +7,18 @@ import ListeDesNotes from './Components/Correction/ListeDesNotes.js';
 
 import './ContentConnected.css'
 
-function ContentNotConnected () {
+function ContentConnected () {
     return(
         <main className="page-content">
             <Routes>
-                <Route exact path="/" element={<Accueil />} />
-
+                <Route exact path="/accueil" element={<Accueil />} />
                 <Route path="/mes-corrections" element={<MesCorrections />} />
-                    
                 <Route path="/liste-des-notes" element={<ListeDesNotes />} />
-                    
-                <Route path="/mes-QCM" element={<ListeQCM />} />
-
-                {/* <Route path="/password-forget" element={<PasswordForget />} /> */}
+                <Route path="/mes-QCM" element={<MesQCM />} />
             </Routes>
             
         </main>
     );
 }
 
-export default ContentNotConnected;
+export default ContentConnected;

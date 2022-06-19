@@ -12,7 +12,8 @@ import './Header.css'
 // import Test from './Test.js';
 
 function App () {
-    const [isNotConnected, setIsNotConnected] = useState("false");
+    const [isNotConnected, setIsNotConnected] = useState("true");
+    
     const toggleConnected = () => {
         setIsNotConnected(!isNotConnected);
     };

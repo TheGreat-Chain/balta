@@ -1,8 +1,20 @@
 import { NavLink } from 'react-router-dom';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import logo from '../../image/logo_balta_white 1.svg'
 
 function Accueil() {
+    const navigate = useNavigate();
+
+    //redirection si deconnexion
+    useEffect(function() {
+        if(! localStorage.getItem('access-token')) {
+            alert('Veuillez vous reconnecter.');
+            navigate("/connexion");
+        }
+    }, []);
+    
     return (
         <div className="accueil-con">
             <div className="main-content">

@@ -1,6 +1,17 @@
 import { NavLink } from "react-router-dom"
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function MesCorrections() {
+    const navigate = useNavigate();
+
+    //redirection si deconnexion
+    useEffect(function() {
+        if(! localStorage.getItem('access-token')) {
+            alert('Veuillez vous reconnecter.');
+            navigate("/connexion");
+        }
+    }, []);
     return (
         <div className="mes-corrections">
             <div className="title">TOUS LES QCM</div>
