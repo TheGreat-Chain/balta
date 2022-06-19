@@ -13,7 +13,7 @@ import jwt from 'jsonwebtoken';
 dotenv.config();
 
 /**  Username to log in the mongo database */
-const {MONGO_USERNAME, MONGO_PASSWORD, MONGO_URL: MONGO_HOST, VALIDATION_CODE_DIR: VALIDATION_CODE_DIR} = process.env;
+const {MONGO_USERNAME, MONGO_PASSWORD, MONGO_URL: MONGO_HOST, VALIDATION_CODE_DIR, EMAIL, EMAIL_PASSWORD} = process.env;
 
 
 /** The Mongo database object */
@@ -58,7 +58,9 @@ const SERVER = {
 const config = {
     server : SERVER,
     mongo : MONGO,
-    validation_codes_dir : VALIDATION_CODE_DIR
+    validation_codes_dir : VALIDATION_CODE_DIR,
+    email : EMAIL,
+    email_password : EMAIL_PASSWORD
 }
 
 export default config;

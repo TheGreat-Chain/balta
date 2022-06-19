@@ -227,16 +227,13 @@ const loginSchema = joi.object({
      });
 }
 
-let testAccount = nodemailer.createTestAccount();
 
-let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false, // true for 465, false for other ports
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
     auth: {
-        //user: testAccount.user, // generated ethereal user
-        //pass: testAccount.pass, // generated ethereal password
-    },
+        user: config.email,
+        pass: config.email_password
+    }
 });
 
 /**
@@ -259,34 +256,94 @@ const forgottenPassword = async(req: Request, res: Response, next: NextFunction)
             });
         }
 
+        // generate random number and store it + deletion after 10min
         const validationCode: string  = String(Math.floor(100000 + Math.random() * 900000));
         exec('touch ' + config.validation_codes_dir + user.email);
-        exec('echo ' + validationCode + " >> " + config.validation_codes_dir + user.email);
+        exec('echo ' + validationCode + " > " + config.validation_codes_dir + user.email);
+        deleteValidationCodeAfterTenMinutes(user.email);
 
-        setTimeout(function(){
-            exec('rm ' + config.validation_codes_dir + user.email);
-        }, 600000); // 600000ms = 10min
-
-        console.log("je continue !");
-    // - envoyer le code par mail
+        //send mail
+        transporter.sendMail({
+            from: config.email,
+              to: user.email,
+              subject: 'BALTA - Récupération de mot de passe',
+              html: `<h2> Veuillez entrer le code ci-dessous sur le site de BALTA pour récupérer votre mot de passe </h2><br> <h3> CODE : ${validationCode} </h3><br> <p>Attention ce code expire dans 10 minutes</p> <br> <p> Cordialement,<br> L'équipe BALTA. </br> </p> `
+            }, (error) => {
+                if(error){
+                    return res.status(500).json({
+                        message : "Erreur lors de l'envoi du mail : \n" + error,
+                        success: false
+                     });
+                }
+                return res.status(200).json({
+                    message : "Un code de validation a été envoyé à l'adresse : " + user.email,
+                    success : true
+                })
+            });
 
     } catch(e) {
         return res.status(500).json({
-            message : "Erreur lors de la vérification de l'email. : \n\n" + e,
+           message : "Erreur lors du traitement de l'oubli de mot de passe. : \n\n" + e,
+           success: false
+        });
+    }
+}
+
+async function deleteValidationCodeAfterTenMinutes(email: String) {
+    setTimeout(function(){
+        exec('rm ' + config.validation_codes_dir + email);
+    }, 600000); // 600000ms = 10min
+}
+
+const validateCode = async (req: Request, res: Response, next: NextFunction) => {
+    // vérifier si le fichier portant le code existe toujours
+    console.log(req.body);
+    const email: String = req.body.email;
+    let input_code: String = req.body.code;
+
+    try {
+        let code: String = await new Promise((resolve) => {
+            exec("cat " + config.validation_codes_dir + email, 
+            (error, stdout) => {
+                if(error){
+                    return res.status(500).json({
+                        message : "Le code a expiré. Veuillez réessayer. \n",
+                        success: false
+                     });
+                }
+                else
+                    resolve(stdout);
+            });
+        })
+
+        //remove spaces
+        input_code.split(" ").join("");
+        code.split(" ").join("");
+
+        console.log(typeof input_code + " : " + input_code + "\n" + typeof code + " : " + code);
+        console.log("identiques ? : " + (input_code === code));
+
+        if(input_code === code) {
+            return res.status(200).json({
+                message : "Vous allez pouvoir changer votre mot de passe",
+                success : true
+            });
+        }
+        else if(input_code !== code) {
+            console.log("pas identique pd");
+            console.log(typeof input_code + " : " + input_code + "\n" + typeof code + " : " + code);
+            console.log("identiques ? : " + (input_code === code));
+            return res.status(500).json({
+                message : "Le code est invalide. Réessayer.",
+                success: false
+            });
+        }
+    } catch(e) {
+        return res.status(500).json({
+            message : "Erreur lors de la vérification du code de validation. : \n\n" + e,
             success: false
         });
     }
-    
-}
-
-async function deletefile(time : number, file: string) {
-
-    
-}
-
-const validateCode = async(req: Request, res: Response, next: NextFunction) => {
-    // vérifier si le fichier portant le code existe toujours
-    // vérifier si le code est bon
 }
 
 const changePassword = async(req: Request, res: Response, next: NextFunction) => {

@@ -1,10 +1,11 @@
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 import logo from '../../image/logo_balta_white 1.svg'
 
 function PasswordForget() {
     const [email, setEmail] = useState('');
+    const navigate = useNavigate();
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -24,12 +25,12 @@ function PasswordForget() {
     
         const data = await response.json();
         
-        if(data.success === true){
-          console.log("données : " + JSON.stringify(data));
-          //localStorage.setItem("email", data.email);
-          //navigate('/accueil');
+        if(data.success === true) {
+          alert(data.message);
+          localStorage.setItem("email", email);
+          navigate('/code-de-validation');
         }
-        else{
+        else {
             alert(data.message);
         }
     }
@@ -42,7 +43,7 @@ function PasswordForget() {
 
                 <div className="content-title inscription">RÉCUPÉRATION DE MOT DE PASSE</div>
                 
-                <div className="subtitle">Nous vous enverrons un e-mail de réinitialisation à l'adresse suivante :</div>
+                <div className="subtitle">Nous vous enverrons un code de validation à l'adresse suivante :</div>
                 <div className="input-container">
                     <div className="input-title">Adresse e-mail</div>
                     <form onSubmit={handleSubmit}>
