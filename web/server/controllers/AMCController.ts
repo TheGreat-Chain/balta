@@ -72,32 +72,29 @@ import {ObjectId} from "mongodb";
   * @return : the error message if there is one
   */
 export function createNewMCQ (req : Request, res : Response, next : NextFunction) {
-
-    const id = req.params.id
+    const id = new ObjectId(req.params.id)
      const qcm = req.body
     //const projectPath = `$HOME/Projets-QCM/${userEmail}`
      //const nbCopie = req.body.nbCopie
     //const qcmTxt = jsonToString(req.body.qcm)
-
-     User.findOneAndUpdate(
-         { _id: new ObjectId(id) },
-         { $push: {UserMCQs: qcm}},(err: any) => {
-             if (err) {
-                 res.status(500).json({
-                     success: false,
-                     message: "BALTA_ERR_005 : Le QCM n'a pas été enregistré dans la BD."
-                 })
-             } else {
+    try{
+        User.findOneAndUpdate(
+            { _id: new ObjectId(id) },
+            { $push: {UserMCQs: qcm}})
+    }catch (err){
+        return res.status(500).json({
+            success: false,
+            message: "BALTA_ERR_005 : Le QCM n'a pas été enregistré dans la BD."
+        })
+    }
                  //TODO
                  // placer le txt dans projectPath
                  // generer le pdf
 
-                 res.status(200).json({
-                     success: true,
-                     message: "SUCCESS : QCM ENREGISTRE DANS LA BD"
-                 })
-             }
-         })
+     return res.status(200).json({
+         success: true,
+         message: "SUCCESS : QCM ENREGISTRE DANS LA BD"
+     })
 
 
 
@@ -115,15 +112,13 @@ export function createNewMCQ (req : Request, res : Response, next : NextFunction
         })*/
 }
 
-export function updateMCQ (req : Request, res : Response, next : NextFunction) {
-    const id = req.params.id
-    const id_qcm = req.params.id_qcm
+export async function updateMCQ (req : Request, res : Response, next : NextFunction) {
+    const id_qcm = new ObjectId(req.params.id_qcm)
     const qcm = req.body
-    const value = new ObjectId(id_qcm)
 
     try {
         await User.updateOne(
-            {"UserMCQs._id" : value},
+            {"UserMCQs._id" : id_qcm},
             {$set : {"UserMCQs.$" : qcm}})
     } catch (err) {
         console.log({err})
@@ -132,20 +127,35 @@ export function updateMCQ (req : Request, res : Response, next : NextFunction) {
             message: "BALTA_ERR_010 : Le QCM n'a pas été enregistré dans la BD."
         })
     }
-
           // TODO
            // placer le txt dans projectPath
            // generer le pdf
-
-           res.status(200).json({
-               success: true,
-               message: "SUCCESS : LE QCM A BIEN ETE MODIFIE"
-           })
+   return res.status(200).json({
+       success: true,
+       message: "SUCCESS : LE QCM A BIEN ETE MODIFIE"
+   })
 }
 
-export function removeMCQ(req : Request, res : Response, next : NextFunction) {
-    const id = req.params.id
-    const id_qcm = req.params.id_qcm
+export async function removeMCQ(req : Request, res : Response, next : NextFunction) {
+    const id = new ObjectId(req.params.id)
+    const id_qcm = new ObjectId(req.params.id_qcm)
+
+    try {
+        await User.updateOne(
+            {_id : id},
+            {$pull : {UserMCQs : {_id: id_qcm}}})
+    } catch (err) {
+        console.log({err})
+        res.status(500).json({
+            success: false,
+            message: "BALTA_ERR_015 : Le QCM n'a pas été supprimé de la BD."
+        })
+    }
+
+    return res.status(200).json({
+        success: true,
+        message: "BALTA_ERR_015 : Le QCM a bien été supprimé de la BD."
+    })
 }
 
 export function getUserMCQs (req : Request, res : Response, next : NextFunction) {

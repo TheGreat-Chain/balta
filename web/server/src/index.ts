@@ -15,8 +15,9 @@ server.use('/api/user', userRoutes);
 server.get('/api', (req :Request, res :Response) =>  {
     res.send('Ca marche !');
 });
+
 // Database connection 
-mongoose.connect(config.mongo.url,{})
+mongoose.connect(config.mongo.url)
     //Si la connexion à la base de donnée est réussie, alors le serveur se connecte au port spécifié 
     .then(() => server.listen(config.server.port,() => console.log(`Server running on port : ${config.server.port}`)))
     .catch((error : Error) => console.error("Message d'erreur : " + error.message));
