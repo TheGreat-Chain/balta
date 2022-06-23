@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  application:
+    build:
+      dockerfile: Dockerfile
+    volumes:
+      - "./QCM:/server/quizzes"
+    ports:
+      - "8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

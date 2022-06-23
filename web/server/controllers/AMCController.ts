@@ -72,14 +72,15 @@ import {ObjectId} from "mongodb";
   * @return : the error message if there is one
   */
 export function createNewMCQ (req : Request, res : Response, next : NextFunction) {
-    const id = new ObjectId(req.params.id)
+    const id : ObjectId = new ObjectId(req.params.id)
+     //const id = req.params.id
      const qcm = req.body
     //const projectPath = `$HOME/Projets-QCM/${userEmail}`
      //const nbCopie = req.body.nbCopie
     //const qcmTxt = jsonToString(req.body.qcm)
     try{
         User.findOneAndUpdate(
-            { _id: new ObjectId(id) },
+            { _id : id },
             { $push: {UserMCQs: qcm}})
     }catch (err){
         return res.status(500).json({

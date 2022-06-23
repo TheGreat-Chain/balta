@@ -93,7 +93,6 @@ const requiredBoolean = {
                             "isGoodAnswer" : Boolean
                         }
                     ]
-
             }]
      }]},
 
